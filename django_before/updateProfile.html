@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>My Profile</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		body {
+		padding-top: 50px;
+		padding-bottom: 20px;
+	}
+	</style>
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="js/vendor/jquery.min.js"></script>
+	<script src="js/vendor/bootstrap.js"></script>
+	<script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3 ">
+				<div class="list-group ">
+					<a href="#" class="list-group-item list-group-item-action active">Personal Info</a>
+					<a href="#" class="list-group-item list-group-item-action">Credit Card</a>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-12">
+								<h4>Update Your Profile</h4>
+								<hr>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<form>
+									<div class="form-group row">
+										<label for="favTeam" class="col-4 col-form-label">Favorite team</label>
+										<div class="col-8">
+											<input id="favTeam" name="favTeam" placeholder="Favorite team" class="form-control here" type="text">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="iban" class="col-4 col-form-label">IBAN</label>
+										<div class="col-8">
+											<input id="iban" name="iban" placeholder="TRXXXXXXXXXXXXXXXXXXXXXXXX" class="form-control here" required="required" type="text">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="email" class="col-4 col-form-label">Email*</label>
+										<div class="col-8">
+											<input id="email" name="email" placeholder="Email" class="form-control here" required="required" type="text">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="phone" class="col-4 col-form-label">Phone number</label>
+										<div class="col-8">
+											<input id="phone" name="phone" placeholder="5XX-XXX-XXXX" class="form-control here" required="required" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="publicinfo" class="col-4 col-form-label">Public Info</label>
+										<div class="col-8">
+											<textarea id="publicinfo" name="publicinfo" cols="40" rows="4" class="form-control"></textarea>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="newpass" class="col-4 col-form-label">New Password</label>
+										<div class="col-8">
+											<input id="newpass" name="newpass" placeholder="New Password" class="form-control here" type="text">
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="offset-4 col-8">
+											<button name="submit" type="submit" class="btn btn-primary">Update My Profile</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
