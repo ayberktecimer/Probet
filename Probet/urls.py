@@ -15,9 +15,20 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from . import views
+
+from .views import sa
+from .views import index
+from .views import signup
+from .views import pdfReports
+from .views import teams
+from .views import customers
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'',views.index),
+    url(r'^sa$', sa),
+    url(r'^admin', admin.site.urls),
+    url(r'^signup', signup),
+    url(r'^teams', teams),
+    url(r'^customers/', customers),
+    url(r'^pdf-reports', pdfReports),
+    url(r'', index)
 ]

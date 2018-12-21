@@ -1,79 +1,108 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>Profile</title>
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<style>
-	body {
-		padding-top: 50px;
-		padding-bottom: 20px;
-	}
-	</style>
-	<link rel="stylesheet" href="css/profile.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Profile</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        body {
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 </head>
 
 <body>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 img">
-				<img src="https://avatars1.githubusercontent.com/u/28488218"  alt="" class="img-rounded">
-    		</div>
-				<div class="col-md-6">
-					<p>
-						<strong>ID: </strong>013 <br>
-						Ayberk Tecimer <br>
-						05068587248 <br>
-						ayberktecimer@gmail.com <br>
-						<strong>Rank: </strong>99<br>
-					</p>
-					<button class="btn btn-primary">Send direct message</button>
-					<button class="btn btn-danger">Block</button>
-					<div class="row">
-						<div class="col-md-12">
-							<h3>Current Slips of User</h3>
-							<div class="card">
-								<ul class="list-group list-group-flush">
-									<div id="appendHere">
-										<p> Coupon id: 123 Date: 21.2.18 <strong>WAITING</strong></p>
-										<li class='list-group-item'><a href=''>Chelsea - AC Milan</a> <a>   </a> <br />Odd: 4.11 <br />Odd Type: 1</li>
-										<li class='list-group-item'><a href=''>Manchester City - West Ham United</a> <a>   </a> <br />Odd: 5.11 <br />Odd Type: 2</li>
-										<li class='list-group-item'><a href=''>Akhmat Grozny - CSKA Moskova</a> <a>   </a> <br />Odd: 2.60 <br />Odd Type: 2</li>
-										<br>
-										<p> Coupon id: 124 Date: 11.12.18 <strong>WAITING</strong></p>
-										<li class='list-group-item'><a href=''>Akhmat Grozny - Tottenham</a> <a>   </a> <br />Odd: 2.65 <br />Odd Type: X</li>
-										<li class='list-group-item'><a href=''>Akhisar - Galatasaray</a> <a>   </a> <br />Odd: 2.60 <br />Odd Type: X</li>
-										<li class='list-group-item'><a href=''>Manchester United - Juventus</a> <a>   </a> <br />Odd: 1.05 <br />Odd Type: 1</li>
-										<li class='list-group-item'><a href=''>Manchester City - West Ham United</a> <a>   </a> <br />Odd: 5.11 <br />Odd Type: 2</li>
-									</div>
-								</ul>
-							</div>
-							<h3>Old Slips of User</h3>
-							<div class="card">
-								<ul class="list-group list-group-flush">
-									<div id="appendHere">
-										<p> Coupon id: 123 Date: 21.2.18 <strong>WIN</strong></p>
-										<li class='list-group-item'><a href=''>Chelsea - AC Milan</a> <a>   </a> <br />Odd: 4.11 <br />Odd Type: 1</li>
-										<li class='list-group-item'><a href=''>Manchester City - West Ham United</a> <a>   </a> <br />Odd: 5.11 <br />Odd Type: 2</li>
-										<li class='list-group-item'><a href=''>Akhmat Grozny - CSKA Moskova</a> <a>   </a> <br />Odd: 2.60 <br />Odd Type: 2</li>
-										<br>
-										<p> Coupon id: 124 Date: 11.12.18 <strong>LOSE</strong></p>
-										<li class='list-group-item'><a href=''>Akhmat Grozny - Tottenham</a> <a>   </a> <br />Odd: 2.65 <br />Odd Type: X</li>
-										<li class='list-group-item'><a href=''>Akhisar - Galatasaray</a> <a>   </a> <br />Odd: 2.60 <br />Odd Type: X</li>
-										<li class='list-group-item'><a href=''>Manchester United - Juventus</a> <a>   </a> <br />Odd: 1.05 <br />Odd Type: 1</li>
-										<li class='list-group-item'><a href=''>Manchester City - West Ham United</a> <a>   </a> <br />Odd: 5.11 <br />Odd Type: 2</li>
-									</div>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 img">
+            <img src="{% static 'images/customerProfilePictures/' %}{{ customer.8 }}" alt="" class="img-rounded">
+        </div>
+        <div class="col-md-6">
+            <p>
+                <strong>ID: </strong>{{ customer.0 }} <br>
+                {{ customer.4 }} {{ customer.5 }} <br>
+                {{ customer.2 }} <br>
+                {{ customer.6 }} <br>
+                <strong>Rank: </strong>{{ customer.9 }}<br>
+            </p>
+            <button class="btn btn-primary">Send direct message</button>
+            <button class="btn btn-danger">Block</button>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Current Slips of User</h3>
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            <div id="appendHere">
+                                <p> Coupon id: 123 Date: 21.2.18 <strong>WAITING</strong></p>
+                                <li class='list-group-item'><a href=''>Chelsea - AC Milan</a> <a> </a> <br/>Odd: 4.11
+                                    <br/>Odd Type: 1
+                                </li>
+                                <li class='list-group-item'><a href=''>Manchester City - West Ham United</a> <a> </a>
+                                    <br/>Odd: 5.11 <br/>Odd Type: 2
+                                </li>
+                                <li class='list-group-item'><a href=''>Akhmat Grozny - CSKA Moskova</a> <a> </a> <br/>Odd:
+                                    2.60 <br/>Odd Type: 2
+                                </li>
+                                <br>
+                                <p> Coupon id: 124 Date: 11.12.18 <strong>WAITING</strong></p>
+                                <li class='list-group-item'><a href=''>Akhmat Grozny - Tottenham</a> <a> </a> <br/>Odd:
+                                    2.65 <br/>Odd Type: X
+                                </li>
+                                <li class='list-group-item'><a href=''>Akhisar - Galatasaray</a> <a> </a> <br/>Odd: 2.60
+                                    <br/>Odd Type: X
+                                </li>
+                                <li class='list-group-item'><a href=''>Manchester United - Juventus</a> <a> </a> <br/>Odd:
+                                    1.05 <br/>Odd Type: 1
+                                </li>
+                                <li class='list-group-item'><a href=''>Manchester City - West Ham United</a> <a> </a>
+                                    <br/>Odd: 5.11 <br/>Odd Type: 2
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+                    <h3>Old Slips of User</h3>
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            <div id="appendHere">
+                                <p> Coupon id: 123 Date: 21.2.18 <strong>WIN</strong></p>
+                                <li class='list-group-item'><a href=''>Chelsea - AC Milan</a> <a> </a> <br/>Odd: 4.11
+                                    <br/>Odd Type: 1
+                                </li>
+                                <li class='list-group-item'><a href=''>Manchester City - West Ham United</a> <a> </a>
+                                    <br/>Odd: 5.11 <br/>Odd Type: 2
+                                </li>
+                                <li class='list-group-item'><a href=''>Akhmat Grozny - CSKA Moskova</a> <a> </a> <br/>Odd:
+                                    2.60 <br/>Odd Type: 2
+                                </li>
+                                <br>
+                                <p> Coupon id: 124 Date: 11.12.18 <strong>LOSE</strong></p>
+                                <li class='list-group-item'><a href=''>Akhmat Grozny - Tottenham</a> <a> </a> <br/>Odd:
+                                    2.65 <br/>Odd Type: X
+                                </li>
+                                <li class='list-group-item'><a href=''>Akhisar - Galatasaray</a> <a> </a> <br/>Odd: 2.60
+                                    <br/>Odd Type: X
+                                </li>
+                                <li class='list-group-item'><a href=''>Manchester United - Juventus</a> <a> </a> <br/>Odd:
+                                    1.05 <br/>Odd Type: 1
+                                </li>
+                                <li class='list-group-item'><a href=''>Manchester City - West Ham United</a> <a> </a>
+                                    <br/>Odd: 5.11 <br/>Odd Type: 2
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>
