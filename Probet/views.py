@@ -4,24 +4,42 @@ import sqlite3
 
 
 def index(request):
-    # Get all teams from db
-    connection = sqlite3.connect('db.sqlite3')
-    cursor = connection.cursor()
-    cursor.execute("SELECT customer_id, first_name, pmessage FROM Post NATURAL JOIN Customer")
-    postList = cursor.fetchall()
+    print(dir(request))
+    if request.method == "POST":
+        post = request.POST
+        tckn = post["tckn"]
+        password = post["password"]
+        connection = sqlite3.connect('db.sqlite3')
+        cursor = connection.cursor()
+        parameters = [tckn, password]
+        cursor.execute("SELECT customer_id FROM Customer WHERE customer_id=? AND password=?", parameters)
+        auth = cursor.fetchone()
+        if auth is not None:
+            request.session.tckn = tckn
+            return render(request, "frontend/profile.html")
+        else:
+            return render(request, "frontend/index.html")
 
-    cursor2 = connection.cursor()
-    cursor2.execute(
-        "SELECT H.name, A.name, odd_amount FROM Odd o NATURAL JOIN Game JOIN Team H JOIN Team A Where H.team_id  = home_team_id AND A.team_id = away_team_id AND EXISTS (SELECT odd_amount  FROM Odd o1 WHERE o.odd_type = o1.odd_type AND odd_type = 'MS0' AND o.odd_amount IS NOT NULL)")
-    gameList = cursor2.fetchall()
 
-    context = {
-        "postList": postList,
-        "gameList": gameList
-    }
+    else:
+        # Get all teams from db
+        connection = sqlite3.connect('db.sqlite3')
+        cursor = connection.cursor()
+        cursor.execute("SELECT customer_id, first_name, pmessage FROM Post NATURAL JOIN Customer")
+        postList = cursor.fetchall()
 
-    connection.close()
-    return render(request, 'frontend/index.html', context)
+        cursor2 = connection.cursor()
+        cursor2.execute(
+            "SELECT H.name, A.name, odd_amount FROM Odd o NATURAL JOIN Game JOIN Team H JOIN Team A Where H.team_id  = home_team_id AND A.team_id = away_team_id AND EXISTS (SELECT odd_amount  FROM Odd o1 WHERE o.odd_type = o1.odd_type AND odd_type = 'MS0' AND o.odd_amount IS NOT NULL)")
+        gameList = cursor2.fetchall()
+
+        context = {
+            "postList": postList,
+            "gameList": gameList
+        }
+
+        connection.close()
+        return render(request, 'frontend/index.html', context)
 
 
 def signup(request):

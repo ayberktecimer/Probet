@@ -50,15 +50,16 @@
 
                 }
             </script>
-            <form class="navbar-form navbar-right" role="form">
+            <form method="POST" class="navbar-form navbar-right" role="form">
+                {% csrf_token %}
                 <div class="form-group">
-                    <input type="number" placeholder="TCKN" min="10000000000" max="99999999999" class="form-control"
+                    <input name="tckn" type="number" placeholder="TCKN" min="10000000000" max="99999999999" class="form-control"
                            required>
                 </div>
                 <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control" required>
+                    <input name="password" type="password" placeholder="Password" class="form-control" required>
                 </div>
-                <button type="submit" onclick="signInAttempt()" class="btn btn-success">Sign in</button>
+                <button type="submit"  class="btn btn-success">Sign in</button>
             </form>
         </div>
     </div>
