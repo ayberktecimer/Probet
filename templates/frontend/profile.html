@@ -41,29 +41,12 @@
                         <ul class="list-group list-group-flush">
                             <div id="appendHere">
                                 <p> Coupon id: 123 Date: 21.2.18 <strong>WAITING</strong></p>
-                                <li class='list-group-item'><a href=''>Chelsea - AC Milan</a> <a> </a> <br/>Odd: 4.11
-                                    <br/>Odd Type: 1
-                                </li>
-                                <li class='list-group-item'><a href=''>Manchester City - West Ham United</a> <a> </a>
-                                    <br/>Odd: 5.11 <br/>Odd Type: 2
-                                </li>
-                                <li class='list-group-item'><a href=''>Akhmat Grozny - CSKA Moskova</a> <a> </a> <br/>Odd:
-                                    2.60 <br/>Odd Type: 2
-                                </li>
-                                <br>
-                                <p> Coupon id: 124 Date: 11.12.18 <strong>WAITING</strong></p>
-                                <li class='list-group-item'><a href=''>Akhmat Grozny - Tottenham</a> <a> </a> <br/>Odd:
-                                    2.65 <br/>Odd Type: X
-                                </li>
-                                <li class='list-group-item'><a href=''>Akhisar - Galatasaray</a> <a> </a> <br/>Odd: 2.60
-                                    <br/>Odd Type: X
-                                </li>
-                                <li class='list-group-item'><a href=''>Manchester United - Juventus</a> <a> </a> <br/>Odd:
-                                    1.05 <br/>Odd Type: 1
-                                </li>
-                                <li class='list-group-item'><a href=''>Manchester City - West Ham United</a> <a> </a>
-                                    <br/>Odd: 5.11 <br/>Odd Type: 2
-                                </li>
+
+                                {% for i in current_slip %}
+                                    <li class='list-group-item'><a href=''>{{ i.0 }} - {{ i.1 }}</a> <a> </a> <br/>Odd: {{ i.3 }}
+                                    <br/>Odd Type: {{ i.2 }}
+                                    </li>
+                                {% endfor %}
                             </div>
                         </ul>
                     </div>
@@ -72,29 +55,12 @@
                         <ul class="list-group list-group-flush">
                             <div id="appendHere">
                                 <p> Coupon id: 123 Date: 21.2.18 <strong>WIN</strong></p>
-                                <li class='list-group-item'><a href=''>Chelsea - AC Milan</a> <a> </a> <br/>Odd: 4.11
-                                    <br/>Odd Type: 1
+                                {% for old in old_slip %}
+                                    <li class='list-group-item'><a href=''>{{ old.0 }} - {{ old.1 }}</a> <a> </a> <br/>Odd: {{ old.3 }}
+                                    <br/>Odd Type: {{ old.2 }}
                                 </li>
-                                <li class='list-group-item'><a href=''>Manchester City - West Ham United</a> <a> </a>
-                                    <br/>Odd: 5.11 <br/>Odd Type: 2
-                                </li>
-                                <li class='list-group-item'><a href=''>Akhmat Grozny - CSKA Moskova</a> <a> </a> <br/>Odd:
-                                    2.60 <br/>Odd Type: 2
-                                </li>
-                                <br>
-                                <p> Coupon id: 124 Date: 11.12.18 <strong>LOSE</strong></p>
-                                <li class='list-group-item'><a href=''>Akhmat Grozny - Tottenham</a> <a> </a> <br/>Odd:
-                                    2.65 <br/>Odd Type: X
-                                </li>
-                                <li class='list-group-item'><a href=''>Akhisar - Galatasaray</a> <a> </a> <br/>Odd: 2.60
-                                    <br/>Odd Type: X
-                                </li>
-                                <li class='list-group-item'><a href=''>Manchester United - Juventus</a> <a> </a> <br/>Odd:
-                                    1.05 <br/>Odd Type: 1
-                                </li>
-                                <li class='list-group-item'><a href=''>Manchester City - West Ham United</a> <a> </a>
-                                    <br/>Odd: 5.11 <br/>Odd Type: 2
-                                </li>
+                                {% endfor %}
+
                             </div>
                         </ul>
                     </div>
