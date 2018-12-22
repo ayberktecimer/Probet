@@ -12,8 +12,9 @@ rank INT DEFAULT 0,
 birth_date DATE, 
 PRIMARY KEY (customer_id));
 
+drop table Message;
 CREATE TABLE Message ( 
-message_id INT AUTO_INCREMENT,
+message_id INT NOT NULL,
 message_text VARCHAR(255) NOT NULL, 
 date  DATE,
 customer_id INT NOT NULL, 
@@ -49,9 +50,10 @@ FOREIGN KEY(customer_id) REFERENCES Customer(customer_id),
 FOREIGN KEY(post_id) REFERENCES Post(post_id), 
 PRIMARY KEY (post_id, customer_id));
 
+drop table Comment;
 CREATE TABLE Comment ( 
 post_id INT NOT NULL, 
-c_id INT AUTO_INCREMENT, 
+c_id INT NOT NULL,
 c_message   VARCHAR(255) NOT NULL, 
 date DATE NOT NULL, 
 customer_id INT NOT NULL, 
@@ -123,8 +125,9 @@ editor_first_name VARCHAR(255) NOT NULL,
 editor_last_name VARCHAR(255) NOT NULL, 
 PRIMARY KEY (editor_id));
 
+drop table Suggestion;
 CREATE TABLE Suggestion ( 
-sug_id INT AUTO_INCREMENT, 
+sug_id INT NOT NULL,
 text VARCHAR(255), 
 date DATE, 
 PRIMARY KEY (sug_id));

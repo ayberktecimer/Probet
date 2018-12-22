@@ -3,9 +3,9 @@ INSERT INTO Customer VALUES (353, 'Fenerbahçe', 5321234567, 'TR1234567890123456
             'ozgur.ulusoy@ug.bilkent.edu.tr', 'sifre', 'ozgur.jpg', 7, 80668800);
 
 -- message
-INSERT INTO Message VALUES(NULL, "Hello John! How are you?", 1544889600, 353);
-INSERT INTO Message VALUES(NULL, "Hi Ozgur. I'm fine...", 1544983200, 2);
-INSERT INTO Message VALUES(NULL, "Son mesaj", 1544889600, 353);
+INSERT INTO Message VALUES(300, "Hello John! How are you?", 1544889600, 353);
+INSERT INTO Message VALUES(301, "Hi Ozgur. I'm fine...", 1544983200, 2);
+INSERT INTO Message VALUES(302, "Son mesaj", 1544889600, 353);
 
 -- team
 INSERT INTO Team VALUES(3, 'Fenerbahçe', 'Süper Lig', 11, 'Turkey', '3.jpg');
@@ -52,31 +52,35 @@ INSERT INTO Post VALUES(40, 1541167200, "This is a post...", 1);
 INSERT INTO Post VALUES(41, 1542790800, "Another post...", 2);
 INSERT INTO Post VALUES(42, 1543136400, "A post...", 353);
 
-/*
-CREATE TABLE Receives (
-message_id INT NOT NULL,
-customer_id INT NOT NULL,
-FOREIGN KEY(customer_id) REFERENCES Customer(customer_id),
-FOREIGN KEY(message_id) REFERENCES Message(message_id),
-PRIMARY KEY (message_id, customer_id));
+-- follows
+INSERT INTO Follows VALUES(1, 353);
+INSERT INTO Follows VALUES(353, 1);
+INSERT INTO Follows VALUES(2, 1);
 
-CREATE TABLE Post_like (
-post_id INT NOT NULL,
-customer_id INT NOT NULL,
-FOREIGN KEY(customer_id) REFERENCES Customer(customer_id),
-FOREIGN KEY(post_id) REFERENCES Post(post_id),
-PRIMARY KEY (post_id, customer_id));
+-- blocks
+INSERT INTO Blocks VALUES(353, 2);
 
-CREATE TABLE Flags (
-post_id INT NOT NULL,
-customer_id INT NOT NULL,
-FOREIGN KEY(customer_id) REFERENCES Customer(customer_id),
-FOREIGN KEY(post_id) REFERENCES Post(post_id),
-PRIMARY KEY (post_id, customer_id));
+-- post like
+INSERT INTO Post_like VALUES(40, 353);
+INSERT INTO Post_like VALUES(40, 2);
+INSERT INTO Post_like VALUES(41, 353);
+
+-- flags
+INSERT INTO Flags VALUES(42, 2);
+
+-- wallet
+INSERT INTO Wallet VALUES(1, 21, 550.3, 'credit', '1111222233334444', '123', 1669896000);
+INSERT INTO Wallet VALUES(2, 22, 2000, 'credit', '9999888877776666', '987', 1641038400);
+INSERT INTO Wallet VALUES(353, 23, 180, 'credit', '6666555544443333', '654', 1648814400);
+
+-- receives
+INSERT INTO Receives VALUES(300, 2);
+INSERT INTO Receives VALUES(301, 353);
+INSERT INTO Receives VALUES(302, 2);
 
 CREATE TABLE Comment (
 post_id INT NOT NULL,
-c_id INT AUTO_INCREMENT,
+c_id INT NOT NULL,
 c_message   VARCHAR(255) NOT NULL,
 date DATE NOT NULL,
 customer_id INT NOT NULL,
@@ -84,85 +88,31 @@ FOREIGN KEY(post_id) REFERENCES Post(post_id),
 FOREIGN KEY(customer_id) REFERENCES Customer(customer_id),
 PRIMARY KEY (post_id, c_id));
 
-CREATE TABLE Comment_like (
-customer_id INT NOT NULL,
-post_id   INT NOT NULL,
-c_id INT NOT NULL,
-FOREIGN KEY(customer_id) REFERENCES Customer(customer_id),
-FOREIGN KEY(c_id) REFERENCES Comment(c_id),
-FOREIGN KEY(post_id) REFERENCES Post(post_id),
-PRIMARY KEY (customer_id, post_id, c_id));
+-- comment
+INSERT INTO Comment VALUES(40, 700, "This is a comment", 1541188800, 353);
+INSERT INTO Comment VALUES(41, 701, "Another comment", 1542791700, 353);
+INSERT INTO Comment VALUES(42, 702, "A comment", 1543150860, 1);
 
-CREATE TABLE Follows (
-customer_id INT NOT NULL,
-customer2_id INT NOT NULL,
-FOREIGN KEY(customer_id) REFERENCES Customer(customer_id),
-FOREIGN KEY(customer2_id) REFERENCES Customer(customer_id),
-PRIMARY KEY (customer_id, customer2_id));
+-- comment like
+INSERT INTO Comment_like VALUES(1, 40, 700);
 
-CREATE TABLE Blocks (
-customer_id INT NOT NULL,
-customer2_id INT NOT NULL,
-FOREIGN KEY(customer_id) REFERENCES Customer(customer_id),
-FOREIGN KEY(customer2_id) REFERENCES Customer(customer_id),
-PRIMARY KEY (customer_id, customer2_id));
+-- suggestion
+INSERT INTO Suggestion VALUES(800, "Banko maç... Gençlerbirliği alır.", 1544864400);
 
-CREATE TABLE Wallet (
-customer_id INT NOT NULL,
-wallet_id INT NOT NULL,
-balance DOUBLE,
-payment_method VARCHAR(10),
-card_number CHAR(16),
-cvc CHAR(3),
-expire_date DATE,
-FOREIGN KEY(customer_id) REFERENCES Customer(customer_id),
-PRIMARY KEY (customer_id, wallet_id));
+-- editor
+INSERT INTO Editor VALUES(90, 'Erman', 'Şafak');
+INSERT INTO Editor VALUES(91, 'Rıdvan', 'Yılmaz');
+INSERT INTO Editor VALUES(92, 'İbrahim', 'Sezen');
 
-CREATE TABLE Editor (
-editor_id INT NOT NULL,
-editor_first_name VARCHAR(255) NOT NULL,
-editor_last_name VARCHAR(255) NOT NULL,
-PRIMARY KEY (editor_id));
+-- suggests
+INSERT INTO Suggests VALUES(83, 800, 90);
 
-CREATE TABLE Suggestion (
-sug_id INT AUTO_INCREMENT,
-text VARCHAR(255),
-date DATE,
-PRIMARY KEY (sug_id));
+-- statistics
+INSERT INTO Statistics VALUES(400, 83, 92);
+INSERT INTO Statistics VALUES(401, 80, 91);
 
-CREATE TABLE Suggests (
-game_id INT NOT NULL,
-sug_id INT NOT NULL,
-editor_id INT NOT NULL,
-PRIMARY KEY (game_id, sug_id, editor_id),
-FOREIGN KEY(sug_id) REFERENCES Suggestion(sug_id),
-FOREIGN KEY(editor_id) REFERENCES Editor(editor_id),
-FOREIGN KEY(game_id) REFERENCES Game(game_id));
+-- pre statistics
+INSERT INTO PreStat VALUES(400, 5, 3, 'Mert Nobre', 4);
 
-CREATE TABLE Statistics (
-sta_id INT NOT NULL,
-game_id INT NOT NULL,
-editor_id INT NOT NULL,
-FOREIGN KEY(game_id) REFERENCES Game(game_id),
-FOREIGN KEY(editor_id) REFERENCES Editor(editor_id),
-PRIMARY KEY (sta_id));
-
-CREATE TABLE PreStat (
-sta_id INT NOT NULL,
-num_of_suspended_players INT,
-num_of_suspended_injuries INT,
-top_scorer VARCHAR(20),
-shots_per_game INT,
-FOREIGN KEY(sta_id) REFERENCES Statistics,
-PRIMARY KEY (sta_id));
-
-CREATE TABLE PostStat (
-sta_id INT NOT NULL,
-possession INT,
-dribbles INT,
-fouls INT,
-pass_success INT,
-tackles INT,
-FOREIGN KEY(sta_id) REFERENCES Statistics,
-PRIMARY KEY (sta_id));
-*/
+-- post statistics
+INSERT INTO PostStat VALUES(401, 63, 40, 3, 65, 7);
