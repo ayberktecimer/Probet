@@ -1,6 +1,8 @@
 -- customer
 INSERT INTO Customer VALUES (353, 'Fenerbahçe', 5321234567, 'TR12345678901234567890', 'Özgür', 'Ulusoy',
             'ozgur.ulusoy@ug.bilkent.edu.tr', 'sifre', 'ozgur.jpg', 7, 80668800);
+INSERT INTO Customer VALUES (10042167494, 'Arsenal', 5548964444, 'TR09876543210987654321', 'Eray', 'Şahin',
+            'eray.sahin@outlook.com.tr', 'benimsifre', 'eray.jpg', 1, 873273600);
 
 -- message
 INSERT INTO Message VALUES(300, "Hello John! How are you?", 1544889600, 353);
@@ -40,12 +42,16 @@ INSERT INTO BetSlip VALUES(100, 1, 250.75, 2, 1522612800, 'lose');
 INSERT INTO BetSlip VALUES(101, 2, 12.5, 3, 1532804400, 'win');
 INSERT INTO BetSlip VALUES(102, 353, 50.5, 4, 1519999200, 'win');
 INSERT INTO BetSlip VALUES(103, 1, 20, 2, 1543665600, 'waiting');
+INSERT INTO BetSlip VALUES(104, 10042167494, 420.25, 6, 1522612800, 'lose');
+INSERT INTO BetSlip VALUES(105, 10042167494, 100, 3, 1543665600, 'win');
 
 -- includes
 INSERT INTO Includes VALUES(80, 'MS1', 1, 100);
 INSERT INTO Includes VALUES(82, 'MS2', 2, 101);
 INSERT INTO Includes VALUES(80, 'MS0', 353, 102);
 INSERT INTO Includes VALUES(83, 'MS1', 1, 103);
+INSERT INTO Includes VALUES(84, 'MS1', 10042167494, 104);
+INSERT INTO Includes VALUES(85, 'MS1', 10042167494, 105);
 
 -- post
 INSERT INTO Post VALUES(40, 1541167200, "This is a post...", 1);
@@ -77,16 +83,6 @@ INSERT INTO Wallet VALUES(353, 23, 180, 'credit', '6666555544443333', '654', 164
 INSERT INTO Receives VALUES(300, 2);
 INSERT INTO Receives VALUES(301, 353);
 INSERT INTO Receives VALUES(302, 2);
-
-CREATE TABLE Comment (
-post_id INT NOT NULL,
-c_id INT NOT NULL,
-c_message   VARCHAR(255) NOT NULL,
-date DATE NOT NULL,
-customer_id INT NOT NULL,
-FOREIGN KEY(post_id) REFERENCES Post(post_id),
-FOREIGN KEY(customer_id) REFERENCES Customer(customer_id),
-PRIMARY KEY (post_id, c_id));
 
 -- comment
 INSERT INTO Comment VALUES(40, 700, "This is a comment", 1541188800, 353);
