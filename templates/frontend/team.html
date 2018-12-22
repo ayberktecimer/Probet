@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,28 +8,28 @@
 	<title>Team</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 	<style>
 	body {
 		padding-top: 50px;
 		padding-bottom: 20px;
 	}
 	</style>
-	<link rel="stylesheet" href="css/profile.css">
+	<link rel="stylesheet" href="{% static 'css/profile.css' %}">
 </head>
 
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 img">
-				<img src="https://upload.wikimedia.org/wikipedia/tr/9/97/MKE_Ankarag%C3%BCc%C3%BC_logo.png"  width="300" height="300" class="img-rounded">
+				<img src="{% static 'images/TeamPictures/' %}{{ team.5 }}" alt="" class="img-rounded">
     		</div>
 				<div class="col-md-6">
 					<p>
-						<strong>Ankaragücü</strong> <br>
-						<strong>Country: </strong>Turkey <br>
-						Turkish Super League <br>
-						<strong>Place: </strong>10 <br>
+						<strong>{{ team.1 }}</strong> <br>
+						<strong>Country: </strong>{{ team.4 }} <br>
+						{{ team.2 }} <br>
+						<strong>Place: </strong>{{ team.3 }} <br>
 					</p>
 					<button class="btn btn-primary">View statistics</button>
 				</div>
