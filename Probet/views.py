@@ -10,8 +10,14 @@ def index(request):
     cursor.execute("SELECT customer_id, first_name, pmessage FROM Post NATURAL JOIN Customer")
     postList = cursor.fetchall()
 
+    cursor2 = connection.cursor()
+    cursor2.execute(
+        "SELECT H.name, A.name, odd_amount FROM Odd o NATURAL JOIN Game JOIN Team H JOIN Team A Where H.team_id  = home_team_id AND A.team_id = away_team_id AND EXISTS (SELECT odd_amount  FROM Odd o1 WHERE o.odd_type = o1.odd_type AND odd_type = 'MS0' AND o.odd_amount IS NOT NULL)")
+    gameList = cursor2.fetchall()
+
     context = {
-        "postList": postList
+        "postList": postList,
+        "gameList": gameList
     }
 
     connection.close()

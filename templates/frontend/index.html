@@ -18,7 +18,7 @@
     <link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
 
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
-    <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="{% static 'js/vendor/modernizr-2.8.3-respond-1.4.2.min.js' %}"></script>
 </head>
 
 <body>
@@ -75,13 +75,16 @@
     <!-- Example row of columns -->
     <div class="row">
         <div class="col-md-12">
+
             <script>
                 function showFootballTable() {
                     $("table thead").empty();
                     $("table thead").append("<tr><th scope='col'>ID</th><th scope='col'>Time</th><th scope='col'>League</th><th scope='col'>Home</th><th scope='col'>Away</th><th scope='col'>1</th><th scope='col'>X</th><th scope='col'>2</th><th scope='col'>2.5A</th><th scope='col'>2.5Ü</th><th scope='col'>+</th><th scope='col'>Social</th></tr>");
                     $("table tbody").empty();
-                    $("table tbody").append(" <tr> <th scope='col'>161</th><td scope='col'>18.00</td><td scope='col'>RUS</td><td scope='col'>Akhmat Grozny</td><td scope='col'>CSKA Moskova</td><td scope='col'>3.05</td><td scope='col'>2.60</td><td scope='col'>2.05</td><td scope='col'>1.30</td><td scope='col'>2.30</td><td scope='col'>+38</td><td scope='col'>Social</td></tr> ");
-
+                    {% for game in gameList %}
+                        var html = "<tr> <th scope='col'>161</th><td scope='col'>18.00</td><td scope='col'>RUS</td><td scope='col'>" +  '{{ game.0 }}' + "</td><td scope='col'>" + '{{ game.1 }}' + "</td><td scope='col'>3.05</td><td scope='col'>" +  '{{ game.2 }}' + "</td><td scope='col'>2.05</td><td scope='col'>1.30</td><td scope='col'>2.30</td><td scope='col'>+38</td><td scope='col'>Social</td></tr>";
+                   $("table tbody").append(html);
+                    {% endfor %}
                 }
 
                 function showBasketballTable() {
@@ -92,6 +95,7 @@
 
                 }
             </script>
+
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -203,7 +207,7 @@
         <p>CS 353 Term Project | Group 15 | 2018</p>
     </footer>
 </div> <!-- /container -->
-<script src="js/vendor/jquery.min.js"></script>
+<script src="{% static 'js/vendor/jquery.min.js' %}"></script>
 <script>
     window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
 </script>
