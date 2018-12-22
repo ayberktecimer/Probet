@@ -186,5 +186,6 @@ team_id INT NOT NULL,
 name VARCHAR(20) NOT NULL, 
 league VARCHAR(20), 
 place_in_league INT, 
-country VARCHAR(20), 
+country VARCHAR(20),
+team_pic VARCHAR(255),
 PRIMARY KEY (team_id));
