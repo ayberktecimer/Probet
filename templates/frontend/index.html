@@ -22,46 +22,7 @@
 </head>
 
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	<div class="container">
-		<div id="navBar">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-						aria-expanded="false" aria-controls="navbar">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="index.html">ProBet</a>
-				<a class="navbar-brand" href="mainSocialPage.html">Social Betting</a>
-			</div>
-			{% if 'tckn' not in request.session %}
-				<p class="navbar-btn navbar-right">
-					<a href="signup.html" class="btn btn-primary">Sign up</a>
-				</p>
-				<form method="POST" class="navbar-form navbar-right" role="form">
-					{% csrf_token %}
-					<div class="form-group">
-						<input name="tckn" type="number" placeholder="TCKN"
-							   class="form-control"
-							   required>
-					</div>
-					<div class="form-group">
-						<input name="password" type="password" placeholder="Password" class="form-control" required>
-					</div>
-					<button type="submit" class="btn btn-success">Sign in</button>
-				</form>
-			{% else %}
-				<p class="navbar-btn navbar-right">
-					<a href="signout" class="btn btn-danger">Sign out</a>
-				</p>
-				<a class="navbar-brand navbar-right"
-				   href="customers/?id={{ request.session.tckn }}">Welcome {{ request.session.tckn }}</a>
-			{% endif %}
-		</div>
-	</div>
-</nav>
+{% include "frontend/navbar.html" %}
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
 	<div class="container">
@@ -201,10 +162,7 @@
 			</div>
 		</div>
 	</div>
-	<hr>
-	<footer>
-		<p>CS 353 Term Project | Group 15 | 2018</p>
-	</footer>
+	{% include "frontend/footer.html" %}
 </div> <!-- /container -->
 <script src="{% static 'js/vendor/jquery.min.js' %}"></script>
 <script>
