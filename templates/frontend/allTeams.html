@@ -15,7 +15,7 @@
 <body>
 <div class="container">
 	{% include "frontend/navbar.html" %}
-	<h2>All teams in database</h2>
+	<h2>All teams</h2>
 	{% for foo in teamList %}
 		<li>
 			<a href="?id={{ foo.0 }}">{{ foo.1 }}</a>

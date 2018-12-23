@@ -179,6 +179,20 @@ def unfollow(request):
 		connection.close()
 		return HttpResponseRedirect("/customers/?id=" + unwantedUserId)
 
+
+def suggestion(request):
+	connection = sqlite3.connect('db.sqlite3')
+	cursor = connection.cursor()
+	cursor.execute("SELECT game_id, editor_id, text FROM Suggestion NATURAL JOIN Suggests") # TODO: game details can be added with joins
+	suggestionList = cursor.fetchall()
+	context = {
+		"suggestionList": suggestionList
+	}
+	connection.commit()  # Required for updating things
+	connection.close()
+	return render(request, "frontend/allSuggestions.html", context)
+
+
 def sa(request):
 	return HttpResponse("as")
 
