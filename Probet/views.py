@@ -4,7 +4,8 @@ import sqlite3
 
 
 def index(request):
-	print(dir(request))
+	if 'tckn' in request.session:
+		print("We have a user here: " + request.session['tckn'])
 	if request.method == "POST":
 		post = request.POST
 		tckn = post["tckn"]
@@ -15,10 +16,9 @@ def index(request):
 		cursor.execute("SELECT customer_id FROM Customer WHERE customer_id=? AND password=?", parameters)
 		auth = cursor.fetchone()
 		if auth is not None:
-			request.session.tckn = tckn
-			return render(request, "frontend/profile.html")
-		else:
-			return render(request, "frontend/index.html")
+			request.session['tckn'] = tckn
+
+		return HttpResponseRedirect("/")
 
 	else:
 		# Get all teams from db
@@ -59,6 +59,11 @@ def signup(request):
 		return render(request, "frontend/signup.html")
 
 
+def signout(request):
+	request.session.flush()
+	return HttpResponseRedirect("/")
+
+
 def teams(request):
 	# Get all teams from db
 	teamId = request.GET["id"]
@@ -83,7 +88,8 @@ def customers(request):
 	userId = request.GET["id"]
 	connection = sqlite3.connect('db.sqlite3')
 	cursor = connection.cursor()
-	cursor.execute("SELECT * FROM Customer WHERE customer_id=?", [userId]) # https://stackoverflow.com/a/16856730/5964489
+	cursor.execute("SELECT * FROM Customer WHERE customer_id=?",
+				   [userId])  # https://stackoverflow.com/a/16856730/5964489
 	customer = cursor.fetchone()
 	# ID düzeltilecek hep 1 veriyoz, front end kısmında kupon id, ve status
 	cursor.execute(
