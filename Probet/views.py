@@ -64,7 +64,7 @@ def teams(request):
 	teamId = request.GET["id"]
 	connection = sqlite3.connect('db.sqlite3')
 	cursor = connection.cursor()
-	cursor.execute("SELECT * FROM Team WHERE team_id=?", teamId)
+	cursor.execute("SELECT * FROM Team WHERE team_id=?", [teamId])
 	team = cursor.fetchone()
 
 	if team is None:
@@ -83,7 +83,7 @@ def customers(request):
 	userId = request.GET["id"]
 	connection = sqlite3.connect('db.sqlite3')
 	cursor = connection.cursor()
-	cursor.execute("SELECT * FROM Customer WHERE customer_id=?", userId)
+	cursor.execute("SELECT * FROM Customer WHERE customer_id=?", [userId]) # https://stackoverflow.com/a/16856730/5964489
 	customer = cursor.fetchone()
 	# ID düzeltilecek hep 1 veriyoz, front end kısmında kupon id, ve status
 	cursor.execute(
