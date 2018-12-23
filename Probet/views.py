@@ -141,16 +141,31 @@ def follow(request):
 		return HttpResponseRedirect("/")  # Unauthorized user
 	else:
 		loggedInUserId = request.session['tckn']
-		desiredUserID = request.GET['id']
+		desiredUserId = request.GET['id']
 		connection = sqlite3.connect('db.sqlite3')
 		cursor = connection.cursor()
 
-		cursor.execute("INSERT INTO Follows VALUES (?,?)", [loggedInUserId, desiredUserID])
+		cursor.execute("INSERT INTO Follows VALUES (?,?)", [loggedInUserId, desiredUserId])
 
 		connection.commit()  # Required for updating things
 		connection.close()
-		return HttpResponseRedirect("/customers/?id=" + desiredUserID)
+		return HttpResponseRedirect("/customers/?id=" + desiredUserId)
 
+
+def unfollow(request):
+	if 'tckn' not in request.session:
+		return HttpResponseRedirect("/")  # Unauthorized user
+	else:
+		loggedInUserId = request.session['tckn']
+		unwantedUserId = request.GET['id']
+		connection = sqlite3.connect('db.sqlite3')
+		cursor = connection.cursor()
+
+		cursor.execute("DELETE FROM Follows WHERE customer_id=? AND customer2_id=?", [loggedInUserId, unwantedUserId])
+
+		connection.commit()  # Required for updating things
+		connection.close()
+		return HttpResponseRedirect("/customers/?id=" + unwantedUserId)
 
 def sa(request):
 	return HttpResponse("as")

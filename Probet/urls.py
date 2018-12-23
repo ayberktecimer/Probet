@@ -24,6 +24,7 @@ from .views import teams
 from .views import customers
 from .views import signout
 from .views import follow
+from .views import unfollow
 
 urlpatterns = [
 	url(r'^sa$', sa),
@@ -31,6 +32,7 @@ urlpatterns = [
 	url(r'^signup', signup),
 	url(r'^teams', teams),
 	url(r'^customers/follow', follow),
+	url(r'^customers/unfollow', unfollow),
 	url(r'^customers/', customers),
 	url(r'^pdf-reports', pdfReports),
 	url(r'^signout', signout),
