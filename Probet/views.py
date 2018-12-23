@@ -65,23 +65,35 @@ def signout(request):
 
 
 def teams(request):
-	# Get all teams from db
-	teamId = request.GET["id"]
-	connection = sqlite3.connect('db.sqlite3')
-	cursor = connection.cursor()
-	cursor.execute("SELECT * FROM Team WHERE team_id=?", [teamId])
-	team = cursor.fetchone()
+	if "id" in request.GET:
+		teamId = request.GET["id"]
+		connection = sqlite3.connect('db.sqlite3')
+		cursor = connection.cursor()
+		cursor.execute("SELECT * FROM Team WHERE team_id=?", [teamId])
+		team = cursor.fetchone()
 
-	if team is None:
-		return HttpResponseRedirect("https://media.giphy.com/media/9SJazLPHLS8roFZMwZ/giphy.gif")
+		if team is None:
+			return HttpResponseRedirect("https://media.giphy.com/media/9SJazLPHLS8roFZMwZ/giphy.gif")
 
-	context = {
-		"team": team
-	}
+		context = {
+			"team": team
+		}
 
-	connection.commit()  # Required for updating things
-	connection.close()
-	return render(request, "frontend/team.html", context)
+		connection.commit()  # Required for updating things
+		connection.close()
+		return render(request, "frontend/team.html", context)
+	else:
+		connection = sqlite3.connect('db.sqlite3')
+		cursor = connection.cursor()
+		cursor.execute("SELECT * FROM Team")
+		teamList = cursor.fetchall()
+
+		context = {
+			"teamList": teamList
+		}
+		connection.commit()  # Required for updating things
+		connection.close()
+		return render(request, "frontend/allTeams.html", context)
 
 
 def customers(request):
