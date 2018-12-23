@@ -3,73 +3,97 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Profile</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <style>
-        body {
-            padding-top: 50px;
-            padding-bottom: 20px;
-        }
-    </style>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Profile</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<style>
+		body {
+			padding-top: 50px;
+			padding-bottom: 20px;
+		}
+	</style>
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 </head>
 
 <body>
 {% include "frontend/navbar.html" %}
 <br>
 <div class="container">
-    <div class="row">
-        <div class="col-md-6 img">
-            <img src="{% static 'images/customerProfilePictures/' %}{{ customer.8 }}" alt="" class="img-rounded">
-        </div>
-        <div class="col-md-6">
-            <p>
-                <strong>ID: </strong> {{ request.session.tckn  }} <br>
-                {{ customer.4 }} {{ customer.5 }} <br>
-                {{ customer.2 }} <br>
-                {{ customer.6 }} <br>
-                <strong>Rank: </strong>{{ customer.9 }}<br>
-            </p>
-            <button class="btn btn-primary">Send direct message</button>
-            <button class="btn btn-danger">Block</button>
-            <div class="row">
-                <div class="col-md-12">
-                    <h3>Current Slips of User</h3>
-                    <div class="card">
-                        <ul class="list-group list-group-flush">
-                            <div id="appendHere">
-                                <p> Coupon id: 123 Date: 21.2.18 <strong>WAITING</strong></p>
+	<div class="row">
+		<div class="col-md-6 img">
+			<img src="{% static 'images/customerProfilePictures/' %}{{ customer.8 }}" alt="" class="img-rounded">
+			<h2>Following</h2>
+			<ul>
+				{% for guy in following %}
+					<li><a href="/customers/?id={{ guy.0 }}">{{ guy.1 }}</a></li>
+				{% endfor %}
+			</ul>
+			<h2>Followers</h2>
+			<ul>
+				{% for guy in followers %}
+					<li><a href="/customers/?id={{ guy.0 }}">{{ guy.1 }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-md-6">
+			<p>
+				<strong>ID: </strong> {{ customer.0 }} <br>
+				{{ customer.4 }} {{ customer.5 }} <br>
+				{{ customer.2 }} <br>
+				{{ customer.6 }} <br>
+				<strong>Rank: </strong>{{ customer.9 }}<br>
+			</p>
+			{% if followingStatus == 0 %}
+				<a href="follow/?id={{ customer.0 }}">
+					<button class="btn btn-success">Follow</button>
+				</a>
+			{% elif followingStatus == 1 %}
+				<a href="unfollow/?id={{ customer.0 }}">
+					<button class="btn btn-danger">Unfollow</button>
+				</a>
+			{% else %}
 
-                                {% for i in current_slip %}
-                                    <li class='list-group-item'><a href=''>{{ i.0 }} - {{ i.1 }}</a> <a> </a> <br/>Odd: {{ i.3 }}
-                                    <br/>Odd Type: {{ i.2 }}
-                                    </li>
-                                {% endfor %}
-                            </div>
-                        </ul>
-                    </div>
-                    <h3>Old Slips of User</h3>
-                    <div class="card">
-                        <ul class="list-group list-group-flush">
-                            <div id="appendHere">
-                                <p> Coupon id: 123 Date: 21.2.18 <strong>WIN</strong></p>
-                                {% for old in old_slip %}
-                                    <li class='list-group-item'><a href=''>{{ old.0 }} - {{ old.1 }}</a> <a> </a> <br/>Odd: {{ old.3 }}
-                                    <br/>Odd Type: {{ old.2 }}
-                                </li>
-                                {% endfor %}
+			{% endif %}
+			<button class="btn btn-primary">Send direct message</button>
+			<button class="btn btn-danger">Block</button>
+			<div class="row">
+				<div class="col-md-12">
+					<h3>Current Slips of User</h3>
+					<div class="card">
+						<ul class="list-group list-group-flush">
+							<div id="appendHere">
+								<p> Coupon id: 123 Date: 21.2.18 <strong>WAITING</strong></p>
 
-                            </div>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+								{% for i in current_slip %}
+									<li class='list-group-item'><a href=''>{{ i.0 }} - {{ i.1 }}</a> <a> </a>
+										<br/>Odd: {{ i.3 }}
+										<br/>Odd Type: {{ i.2 }}
+									</li>
+								{% endfor %}
+							</div>
+						</ul>
+					</div>
+					<h3>Old Slips of User</h3>
+					<div class="card">
+						<ul class="list-group list-group-flush">
+							<div id="appendHere">
+								<p> Coupon id: 123 Date: 21.2.18 <strong>WIN</strong></p>
+								{% for old in old_slip %}
+									<li class='list-group-item'><a href=''>{{ old.0 }} - {{ old.1 }}</a> <a> </a> <br/>Odd: {{ old.3 }}
+										<br/>Odd Type: {{ old.2 }}
+									</li>
+								{% endfor %}
+
+							</div>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	{% include "frontend/footer.html" %}
 </div>
 </body>

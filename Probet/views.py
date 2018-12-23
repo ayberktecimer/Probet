@@ -102,15 +102,54 @@ def customers(request):
 	if customer is None:
 		return HttpResponseRedirect("https://media.giphy.com/media/9SJazLPHLS8roFZMwZ/giphy.gif")
 
+	cursor.execute(
+		"SELECT customer2_id, first_name FROM Follows INNER JOIN Customer ON Follows.customer2_id = Customer.customer_id WHERE Follows.customer_id=?",
+		[userId])
+	followingList = cursor.fetchall()
+	cursor.execute("SELECT customer_id, first_name FROM Follows NATURAL JOIN Customer WHERE customer2_id=?", [userId])
+	followersList = cursor.fetchall()
+
+	if 'tckn' in request.session and request.session['tckn'] == userId:
+		followingStatus = 2  # User views her own page
+
+	elif 'tckn' in request.session:
+		cursor.execute("SELECT * FROM Follows WHERE customer_id=? AND customer2_id=?",
+					   [request.session['tckn'], userId])
+		if cursor.fetchone():
+			followingStatus = 1  # User views a profile that is already following
+		else:
+			followingStatus = 0
+	else:
+		followingStatus = 0  # User views a stranger
+
 	context = {
 		"customer": customer,
 		"current_slip": get_current_slip,
-		"old_slip": get_old_slip
+		"old_slip": get_old_slip,
+		"following": followingList,
+		"followers": followersList,
+		"followingStatus": followingStatus
 	}
 
 	connection.commit()  # Required for updating things
 	connection.close()
 	return render(request, "frontend/profile.html", context)
+
+
+def follow(request):
+	if 'tckn' not in request.session:
+		return HttpResponseRedirect("/")  # Unauthorized user
+	else:
+		loggedInUserId = request.session['tckn']
+		desiredUserID = request.GET['id']
+		connection = sqlite3.connect('db.sqlite3')
+		cursor = connection.cursor()
+
+		cursor.execute("INSERT INTO Follows VALUES (?,?)", [loggedInUserId, desiredUserID])
+
+		connection.commit()  # Required for updating things
+		connection.close()
+		return HttpResponseRedirect("/customers/?id=" + desiredUserID)
 
 
 def sa(request):

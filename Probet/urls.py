@@ -23,12 +23,14 @@ from .views import pdfReports
 from .views import teams
 from .views import customers
 from .views import signout
+from .views import follow
 
 urlpatterns = [
 	url(r'^sa$', sa),
 	url(r'^admin', admin.site.urls),
 	url(r'^signup', signup),
 	url(r'^teams', teams),
+	url(r'^customers/follow', follow),
 	url(r'^customers/', customers),
 	url(r'^pdf-reports', pdfReports),
 	url(r'^signout', signout),
