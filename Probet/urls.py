@@ -26,6 +26,7 @@ from .views import signout
 from .views import follow
 from .views import unfollow
 from .views import suggestion
+from .views import writeSuggestion
 
 urlpatterns = [
 	url(r'^sa$', sa),
@@ -37,6 +38,7 @@ urlpatterns = [
 	url(r'^customers/', customers),
 	url(r'^pdf-reports', pdfReports),
 	url(r'^signout', signout),
+	url(r'^suggestions/new', writeSuggestion),
 	url(r'^suggestions', suggestion),
 	url(r'', index)
 ]

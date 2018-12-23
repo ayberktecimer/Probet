@@ -15,8 +15,13 @@ def index(request):
 		parameters = [tckn, password]
 		cursor.execute("SELECT customer_id FROM Customer WHERE customer_id=? AND password=?", parameters)
 		auth = cursor.fetchone()
-		if auth is not None:
+		cursor.execute("SELECT * FROM Editor WHERE editor_id=?", [tckn])
+		checkEditor = cursor.fetchone()
+
+		if auth:
 			request.session['tckn'] = tckn
+		if checkEditor:
+			request.session['isEditor'] = True
 
 		return HttpResponseRedirect("/")
 
@@ -183,7 +188,8 @@ def unfollow(request):
 def suggestion(request):
 	connection = sqlite3.connect('db.sqlite3')
 	cursor = connection.cursor()
-	cursor.execute("SELECT game_id, editor_id, text FROM Suggestion NATURAL JOIN Suggests") # TODO: game details can be added with joins
+	cursor.execute(
+		"SELECT game_id, editor_id, text FROM Suggestion NATURAL JOIN Suggests")  # TODO: game details can be added with joins
 	suggestionList = cursor.fetchall()
 	context = {
 		"suggestionList": suggestionList
@@ -191,6 +197,27 @@ def suggestion(request):
 	connection.commit()  # Required for updating things
 	connection.close()
 	return render(request, "frontend/allSuggestions.html", context)
+
+
+def writeSuggestion(request):
+	if 'isEditor' not in request.session:
+		return HttpResponse("Only editors can write suggestions")
+	elif request.POST:
+		form = request.POST
+		editorId = request.session['tckn']
+		gameId = form['gameID']
+		suggestion = form['suggestion']
+
+		connection = sqlite3.connect('db.sqlite3')
+		cursor = connection.cursor()
+		cursor.execute("INSERT INTO Suggestion VALUES (NULL, ?, current_date)", [suggestion])
+		cursor.execute("INSERT INTO Suggests VALUES (?, last_insert_rowid(), ?)", [gameId, editorId])
+		connection.commit()  # Required for updating things
+		connection.close()
+		return HttpResponseRedirect("/suggestions")
+
+	else:
+		return render(request, "frontend/writeSuggestion.html")
 
 
 def sa(request):

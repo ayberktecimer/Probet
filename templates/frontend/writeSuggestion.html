@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,33 +8,33 @@
 	<title>Suggestion</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 	<style>
 		body {
-		padding-top: 50px;
-		padding-bottom: 20px;
-	}
+			padding-top: 50px;
+			padding-bottom: 20px;
+		}
 	</style>
-	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
-	<link rel="stylesheet" href="css/main.css">
-	<script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
 
 <body>
-	<div class="container">
-		<form>
-			<h2>Write suggestion</h2>
-			<div class="form-group">
-				<label for="matchID">Match ID</label>
-				<input type="text" maxlength="5" class="form-control" id="matchID" placeholder="ID">
-			</div>
-			<div class="form-group">
-				<label for="comment">Your suggestion</label>
-				<textarea class="form-control" id="comment" rows="3"></textarea>
-			</div>
-			<button type="submit" class="btn btn-primary">Send</button>
-		</form>
-	</div>
+{% include "frontend/navbar.html" %}
+<div class="container">
+	<form method="POST">
+		{% csrf_token %}
+		<h2>Write suggestion</h2>
+		<div class="form-group">
+			<label for="matchID">Game ID</label>
+			<input name="gameID" type="text" maxlength="5" class="form-control" id="matchID" placeholder="ID">
+		</div>
+		<div class="form-group">
+			<label for="comment">Your suggestion</label>
+			<textarea class="form-control" name="suggestion" id="comment" rows="3"></textarea>
+		</div>
+		<button type="submit" class="btn btn-primary">Send</button>
+	</form>
+	{% include "frontend/footer.html" %}
+</div>
 </body>
 
 </html>
