@@ -250,6 +250,11 @@ def getGamesAndOdds():
 
 	return gamesAndOdds
 
+
+def createBetSlip(request):
+	print(request.body)
+	return HttpResponse("dünya 5ten büyük")
+
 def sa(request):
 	return HttpResponse("as")
 

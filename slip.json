@@ -1,0 +1,14 @@
+{
+  "customerId": "123456",
+  "betAmount": 15,
+  "numberOfGames": 3,
+  "status": "waiting",
+  "games": [
+    {
+      "gameId": 1,
+      "oddType": "MS1"
+    },
+    {},
+    {}
+  ]
+}

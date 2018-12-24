@@ -27,6 +27,7 @@ from .views import follow
 from .views import unfollow
 from .views import suggestion
 from .views import writeSuggestion
+from .views import createBetSlip
 
 urlpatterns = [
 	url(r'^sa$', sa),
@@ -40,5 +41,6 @@ urlpatterns = [
 	url(r'^signout', signout),
 	url(r'^suggestions/new', writeSuggestion),
 	url(r'^suggestions', suggestion),
+	url(r'^slips/new', createBetSlip),
 	url(r'', index)
 ]
