@@ -4,6 +4,8 @@ INSERT INTO Customer VALUES (353, 'Fenerbahçe', 5321234567, 'TR1234567890123456
 INSERT INTO Customer VALUES (10042167494, 'Arsenal', 5548964444, 'TR09876543210987654321', 'Eray', 'Şahin',
             'eray.sahin@outlook.com.tr', 'benimsifre', 'eray.jpg', 1, 873273600);
 
+------------------------------------------------------------------------------------------------------------------------
+
 -- message
 INSERT INTO Message VALUES(300, "Hello John! How are you?", 1544889600, 353);
 INSERT INTO Message VALUES(301, "Hi Ozgur. I'm fine...", 1544983200, 2);
