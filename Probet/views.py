@@ -32,14 +32,10 @@ def index(request):
 		cursor.execute("SELECT customer_id, first_name, pmessage FROM Post NATURAL JOIN Customer")
 		postList = cursor.fetchall()
 
-		cursor2 = connection.cursor()
-		cursor2.execute(
-			"SELECT H.name, A.name, odd_amount FROM Odd o NATURAL JOIN Game JOIN Team H JOIN Team A Where H.team_id  = home_team_id AND A.team_id = away_team_id AND EXISTS (SELECT odd_amount  FROM Odd o1 WHERE o.odd_type = o1.odd_type AND odd_type = 'MS0' AND o.odd_amount IS NOT NULL)")
-		gameList = cursor2.fetchall()
 
 		context = {
 			"postList": postList,
-			"gameList": gameList
+			"gamesAndOdds": getGamesAndOdds()
 		}
 
 		connection.close()
@@ -220,6 +216,39 @@ def writeSuggestion(request):
 	else:
 		return render(request, "frontend/writeSuggestion.html")
 
+
+def getGamesAndOdds():
+	connection = sqlite3.connect('db.sqlite3')
+	cursor = connection.cursor()
+	cursor.execute(
+		"SELECT game_id, start_time, H.league, H.name, A.name, odd_type, odd_amount FROM Odd o NATURAL JOIN Game JOIN Team H JOIN Team A WHERE H.team_id  = home_team_id AND A.team_id = away_team_id;")
+	games = cursor.fetchall()
+	gamesAndOdds = {}
+	for game in games:
+		gameId = game[0]
+		startTime = game[1]
+		league = game[2]
+		homeName = game[3]
+		awayName = game[4]
+		oddType = game[5]
+		oddAmount = game[6]
+
+		info = {
+			"gameId": gameId,
+			"startTime": startTime,
+			"league": league,
+			"homeName": homeName,
+			"awayName": awayName
+		}
+
+		if gameId not in gamesAndOdds:
+			gamesAndOdds[gameId] = {}
+			gamesAndOdds[gameId]["info"] = info
+			gamesAndOdds[gameId]["odds"] = {}
+
+		gamesAndOdds[gameId]["odds"][oddType] = oddAmount
+
+	return gamesAndOdds
 
 def sa(request):
 	return HttpResponse("as")
