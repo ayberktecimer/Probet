@@ -41,8 +41,8 @@
 					$("table thead").empty();
 					$("table thead").append("<tr><th scope='col'>ID</th><th scope='col'>Time</th><th scope='col'>League</th><th scope='col'>Home</th><th scope='col'>Away</th><th scope='col'>1</th><th scope='col'>X</th><th scope='col'>2</th><th scope='col'>2.5A</th><th scope='col'>2.5Ü</th><th scope='col'>+</th><th scope='col'>Social</th></tr>");
 					$("table tbody").empty();
-					{% for game in gameList %}
-						var html = "<tr> <th scope='col'>161</th><td scope='col'>18.00</td><td scope='col'>RUS</td><td scope='col'>" + '{{ game.0 }}' + "</td><td scope='col'>" + '{{ game.1 }}' + "</td><td scope='col'>3.05</td><td scope='col'>" + '{{ game.2 }}' + "</td><td scope='col'>2.05</td><td scope='col'>1.30</td><td scope='col'>2.30</td><td scope='col'>+38</td><td scope='col'>Social</td></tr>";
+                    {% for game, values in gamesAndOdds.items %}
+                        var html = "<tr> <th scope='col'>" + '{{  values.info.gameId }}' + "</th><td scope='col'>{{  values.info.startTime }}</td><td scope='col'>{{  values.info.league }}</td><td scope='col'>" + '{{ values.info.homeName }}' + "</td><td scope='col'>" + '{{ values.info.awayName }}' + "</td><td scope='col'>{{  values.odds.MS1 }}</td><td scope='col'>" + '{{ values.odds.MS0 }}' + "</td><td scope='col'>{{ values.odds.MS2 }}</td><td scope='col'>{{ values.odds.U25 }}</td><td scope='col'>{{ values.odds.A25 }}</td><td scope='col'>Hell</td><td scope='col'>Social</td></tr>";
 						$("table tbody").append(html);
 					{% endfor %}
 				}
