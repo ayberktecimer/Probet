@@ -109,12 +109,13 @@ def customers(request):
 				   [userId])  # https://stackoverflow.com/a/16856730/5964489
 	customer = cursor.fetchone()
 	# ID düzeltilecek hep 1 veriyoz, front end kısmında kupon id, ve status
+
 	cursor.execute(
-		"SELECT home.name, away.name, odd_type,odd_amount FROM Odd NATURAL JOIN Game INNER JOIN Team home ON home.team_id=home_team_id INNER JOIN Team away ON away.team_id=away_team_id NATURAL JOIN INCLUDES NATURAL JOIN BetSlip WHERE customer_id = 1 AND status = 'waiting' ")
+		"SELECT home.name, away.name, odd_type,odd_amount FROM Odd NATURAL JOIN Game INNER JOIN Team home ON home.team_id=home_team_id INNER JOIN Team away ON away.team_id=away_team_id NATURAL JOIN INCLUDES NATURAL JOIN BetSlip WHERE customer_id = ? AND status = 'waiting' ", [userId])
 	get_current_slip = cursor.fetchall()
 
 	cursor.execute(
-		"SELECT home.name, away.name, odd_type, odd_amount FROM Odd NATURAL JOIN Game INNER JOIN Team home ON home.team_id=home_team_id INNER JOIN Team away ON away.team_id=away_team_id NATURAL JOIN INCLUDES NATURAL JOIN BetSlip WHERE customer_id = 1 AND status != 'waiting' ")
+		"SELECT home.name, away.name, odd_type, odd_amount FROM Odd NATURAL JOIN Game INNER JOIN Team home ON home.team_id=home_team_id INNER JOIN Team away ON away.team_id=away_team_id NATURAL JOIN INCLUDES NATURAL JOIN BetSlip WHERE customer_id = ? AND status != 'waiting' ", [userId])
 	get_old_slip = cursor.fetchall()
 	if customer is None:
 		return HttpResponseRedirect("https://media.giphy.com/media/9SJazLPHLS8roFZMwZ/giphy.gif")
