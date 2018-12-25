@@ -3,221 +3,227 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>ProBet</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <style>
-        body {
-            padding-top: 50px;
-            padding-bottom: 20px;
-        }
-    </style>
-    <link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>ProBet</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+	<style>
+		body {
+			padding-top: 50px;
+			padding-bottom: 20px;
+		}
+	</style>
+	<link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
 
-    <link href="{% static 'css/main.css' %}" rel="stylesheet">
-    <script src="{% static 'js/vendor/modernizr-2.8.3-respond-1.4.2.min.js' %}"></script>
+	<link href="{% static 'css/main.css' %}" rel="stylesheet">
+	<script src="{% static 'js/vendor/modernizr-2.8.3-respond-1.4.2.min.js' %}"></script>
 </head>
 
 <body>
 {% include "frontend/navbar.html" %}
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
-    <div class="container">
-        <h1>Welcome to ProBet!</h1>
-        <p>ProBet is an online betting system where you can share your bet slips</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-    </div>
+	<div class="container">
+		<h1>Welcome to ProBet!</h1>
+		<p>ProBet is an online betting system where you can share your bet slips</p>
+		<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+	</div>
 </div>
 <div class="container">
-    <!-- Example row of columns -->
-    <div class="row">
-        <div class="col-md-12">
+	<!-- Example row of columns -->
+	<div class="row">
+		<div class="col-md-12">
 
-            <script>
-                var slip = {};
-                slip.customerId = {{ request.session.tckn }}
-                    slip.games = [];
+			<script>
+				var slip = {
+					"customerId": null,
+					"games": []
+				};
 
+				function showFootballTable() {
+					$("table thead").empty();
+					$("table thead").append("<tr><th scope='col'>ID</th><th scope='col'>Time</th><th scope='col'>League</th><th scope='col'>Home</th><th scope='col'>Away</th><th scope='col'>1</th><th scope='col'>X</th><th scope='col'>2</th><th scope='col'>2.5A</th><th scope='col'>2.5Ü</th><th scope='col'>+</th><th scope='col'>Social</th></tr>");
+					$("table tbody").empty();
+					{% for game, values in gamesAndOdds.items %}
+						var oddType = "MS1";
+						var html = "<tr> <th scope='col'>" + '{{  values.info.gameId }}' + "</th><td scope='col'>{{  values.info.startTime }}</td><td scope='col'>{{  values.info.league }}</td><td scope='col'>" + '{{ values.info.homeName }}' + "</td><td scope='col'>" + '{{ values.info.awayName }}' + "</td><td scope='col'><a onclick='addOddtoBetSlip({{  values.odds.MS1 }},\"" + oddType + "\", {{  values.info.gameId }})' id='footballButton'>{{  values.odds.MS1 }}</a></td><td scope='col'>" + '{{ values.odds.MS0 }}' + "</td><td scope='col'>{{ values.odds.MS2 }}</td><td scope='col'>{{ values.odds.U25 }}</td><td scope='col'>{{ values.odds.A25 }}</td><td scope='col'>Hell</td><td scope='col'>Social</td></tr>";
+						$("table tbody").append(html);
+					{% endfor %}
+				}
 
-                function showFootballTable() {
-                    $("table thead").empty();
-                    $("table thead").append("<tr><th scope='col'>ID</th><th scope='col'>Time</th><th scope='col'>League</th><th scope='col'>Home</th><th scope='col'>Away</th><th scope='col'>1</th><th scope='col'>X</th><th scope='col'>2</th><th scope='col'>2.5A</th><th scope='col'>2.5Ü</th><th scope='col'>+</th><th scope='col'>Social</th></tr>");
-                    $("table tbody").empty();
-                    {% for game, values in gamesAndOdds.items %}
-                        var oddType = "MS1";
-                        var html = "<tr> <th scope='col'>" + '{{  values.info.gameId }}' + "</th><td scope='col'>{{  values.info.startTime }}</td><td scope='col'>{{  values.info.league }}</td><td scope='col'>" + '{{ values.info.homeName }}' + "</td><td scope='col'>" + '{{ values.info.awayName }}' + "</td><td scope='col'><a onclick='addOddtoBetSlip({{  values.odds.MS1 }},\"" + oddType + "\", {{  values.info.gameId }})' id='footballButton'>{{  values.odds.MS1 }}</a></td><td scope='col'>" + '{{ values.odds.MS0 }}' + "</td><td scope='col'>{{ values.odds.MS2 }}</td><td scope='col'>{{ values.odds.U25 }}</td><td scope='col'>{{ values.odds.A25 }}</td><td scope='col'>Hell</td><td scope='col'>Social</td></tr>";
-                        $("table tbody").append(html);
-                    {% endfor %}
-                }
+				function showBasketballTable() {
+					$("table thead").empty();
+					$("table thead").append("<tr><th scope='col'>ID</th><th scope='col'>Time</th><th scope='col'>League</th><th scope='col'>Home</th><th scope='col'>Away</th><th scope='col'>1</th><th scope='col'>X</th><th scope='col'>2</th><th scope='col'>2.5A</th><th scope='col'>2.5Ü</th><th scope='col'>+</th><th scope='col'>Social</th></tr>");
+					$("table tbody").empty();
+					$("table tbody").append(" <tr> <th scope='col'>161</th><td scope='col'>18.00</td><td scope='col'>NBA</td><td scope='col'>Los Angeles Lakers</td><td scope='col'>Miami Heat</td><td scope='col'>3.05</td><td scope='col'>2.60</td><td scope='col'>2.05</td><td scope='col'>1.30</td><td scope='col'>2.30</td><td scope='col'>+38</td><td scope='col'>Social</td></tr> ");
 
-                function showBasketballTable() {
-                    $("table thead").empty();
-                    $("table thead").append("<tr><th scope='col'>ID</th><th scope='col'>Time</th><th scope='col'>League</th><th scope='col'>Home</th><th scope='col'>Away</th><th scope='col'>1</th><th scope='col'>X</th><th scope='col'>2</th><th scope='col'>2.5A</th><th scope='col'>2.5Ü</th><th scope='col'>+</th><th scope='col'>Social</th></tr>");
-                    $("table tbody").empty();
-                    $("table tbody").append(" <tr> <th scope='col'>161</th><td scope='col'>18.00</td><td scope='col'>NBA</td><td scope='col'>Los Angeles Lakers</td><td scope='col'>Miami Heat</td><td scope='col'>3.05</td><td scope='col'>2.60</td><td scope='col'>2.05</td><td scope='col'>1.30</td><td scope='col'>2.30</td><td scope='col'>+38</td><td scope='col'>Social</td></tr> ");
+				}
+			</script>
 
-                }
-            </script>
+			<table class="table table-hover">
+				<thead>
+				<tr>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Time</th>
+					<th scope="col">League</th>
+					<th scope="col">Home</th>
+					<th scope="col">Away</th>
+					<th scope="col">1</th>
+					<th scope="col">X</th>
+					<th scope="col">2</th>
+					<th scope="col">2.5A</th>
+					<th scope="col">2.5Ü</th>
+					<th scope="col">+</th>
+					<th scope="col">Social</th>
+				</tr>
+				</thead>
+				<tbody>
+				<a>
+					<button onclick="showFootballTable()" type="button" class="btn btn-success" id="footballButton">
+						Football
+					</button>
+				</a>
+				<a>
+					<button onclick="showBasketballTable()" type="button" class="btn btn-success" id="basketballButton">
+						Basketball
+					</button>
+				</a>
+				<tr>
+					<th scope="col">161</th>
+					<td scope="col">16.00</td>
+					<td scope="col">RUS</td>
+					<td scope="col">Akhmat Grozny</td>
+					<td scope="col">CSKA Moskova</td>
+					<td scope="col"><a>3.05</a></td>
+					<td scope="col"><a onclick="addOddtoBetSlip()" id="footballButton"> 2.60</a></td>
+					<td scope="col"><a>2.05</a></td>
+					<td scope="col"><a>1.30</a></td>
+					<td scope="col"><a>2.30</a></td>
+					<td scope="col">+38</td>
+					<td scope="col">2 likes</td>
+				</tr>
+				<tr>
+					<th scope="col">163</th>
+					<td scope="col">18.00</td>
+					<td scope="col">SSL</td>
+					<td scope="col">Alanyaspor</td>
+					<td scope="col">Kayserispor</td>
+					<td scope="col"><a>1.80</a></td>
+					<td scope="col"><a>3.00</a></td>
+					<td scope="col"><a>3.20</a></td>
+					<td scope="col"><a>1.60</a></td>
+					<td scope="col"><a>1.75</a></td>
+					<td scope="col">+74</td>
+					<td scope="col">4 likes</td>
+				</tr>
+				<tr>
+					<th scope="col">164</th>
+					<td scope="col">19.00</td>
+					<td scope="col">CEK</td>
+					<td scope="col">MFK Karvina</td>
+					<td scope="col">Slavia Prag</td>
+					<td scope="col"><a>7.00</a></td>
+					<td scope="col"><a>4.00</a></td>
+					<td scope="col"><a>1.25</a></td>
+					<td scope="col"><a>1.75</a></td>
+					<td scope="col"><a>1.60</a></td>
+					<td scope="col">+19</td>
+					<td scope="col">25 likes</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script>
+		function addOddtoBetSlip(oddAmount, oddType, gameId) {
+			var container = $('#appendHere');
+			container.append("<li class='list-group-item'><a href=''>Akhmat Grozny - CSKA Moskova</a> <a>   <button onclick ='removeOdd()' type='button' class='btn btn-danger' id='removeOddButton'>Remove </button>    </a>  <br/>" + oddAmount + gameId + oddType + "</li> ");
+			slip.games.push({
+				"gameId": gameId,
+				"oddType": oddType
+			});
+		}
 
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">League</th>
-                    <th scope="col">Home</th>
-                    <th scope="col">Away</th>
-                    <th scope="col">1</th>
-                    <th scope="col">X</th>
-                    <th scope="col">2</th>
-                    <th scope="col">2.5A</th>
-                    <th scope="col">2.5Ü</th>
-                    <th scope="col">+</th>
-                    <th scope="col">Social</th>
-                </tr>
-                </thead>
-                <tbody>
-                <a>
-                    <button onclick="showFootballTable()" type="button" class="btn btn-success" id="footballButton">
-                        Football
-                    </button>
-                </a>
-                <a>
-                    <button onclick="showBasketballTable()" type="button" class="btn btn-success" id="basketballButton">
-                        Basketball
-                    </button>
-                </a>
-                <tr>
-                    <th scope="col">161</th>
-                    <td scope="col">16.00</td>
-                    <td scope="col">RUS</td>
-                    <td scope="col">Akhmat Grozny</td>
-                    <td scope="col">CSKA Moskova</td>
-                    <td scope="col"><a>3.05</a></td>
-                    <td scope="col"><a onclick="addOddtoBetSlip()" id="footballButton"> 2.60</a></td>
-                    <td scope="col"><a>2.05</a></td>
-                    <td scope="col"><a>1.30</a></td>
-                    <td scope="col"><a>2.30</a></td>
-                    <td scope="col">+38</td>
-                    <td scope="col">2 likes</td>
-                </tr>
-                <tr>
-                    <th scope="col">163</th>
-                    <td scope="col">18.00</td>
-                    <td scope="col">SSL</td>
-                    <td scope="col">Alanyaspor</td>
-                    <td scope="col">Kayserispor</td>
-                    <td scope="col"><a>1.80</a></td>
-                    <td scope="col"><a>3.00</a></td>
-                    <td scope="col"><a>3.20</a></td>
-                    <td scope="col"><a>1.60</a></td>
-                    <td scope="col"><a>1.75</a></td>
-                    <td scope="col">+74</td>
-                    <td scope="col">4 likes</td>
-                </tr>
-                <tr>
-                    <th scope="col">164</th>
-                    <td scope="col">19.00</td>
-                    <td scope="col">CEK</td>
-                    <td scope="col">MFK Karvina</td>
-                    <td scope="col">Slavia Prag</td>
-                    <td scope="col"><a>7.00</a></td>
-                    <td scope="col"><a>4.00</a></td>
-                    <td scope="col"><a>1.25</a></td>
-                    <td scope="col"><a>1.75</a></td>
-                    <td scope="col"><a>1.60</a></td>
-                    <td scope="col">+19</td>
-                    <td scope="col">25 likes</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <script>
-        function addOddtoBetSlip(oddAmount, oddType, gameId) {
-            var container = $('#appendHere');
-            container.append("<li class='list-group-item'><a href=''>Akhmat Grozny - CSKA Moskova</a> <a>   <button onclick ='removeOdd()' type='button' class='btn btn-danger' id='removeOddButton'>Remove </button>    </a>  <br/>" + oddAmount + gameId + oddType + "</li> ");
-            slip.games.push({
-                "gameId": gameId,
-                "oddType": oddType
-            });
-        }
+		function sendSlipToServer() {
+			{% if request.session.tckn %}
+				slip.customerId = {{ request.session.tckn }};
+			{% endif %}
+			$.ajaxSetup({ // Some django related shit
+				beforeSend: function (xhr, settings) {
+					function getCookie(name) {
+						var cookieValue = null;
+						if (document.cookie && document.cookie != '') {
+							var cookies = document.cookie.split(';');
+							for (var i = 0; i < cookies.length; i++) {
+								var cookie = jQuery.trim(cookies[i]);
+								// Does this cookie string begin with the name we want?
+								if (cookie.substring(0, name.length + 1) == (name + '=')) {
+									cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+									break;
+								}
+							}
+						}
+						return cookieValue;
+					}
 
-        function sendSlipToServer() {
-            $.ajaxSetup({
-                beforeSend: function (xhr, settings) {
-                    function getCookie(name) {
-                        var cookieValue = null;
-                        if (document.cookie && document.cookie != '') {
-                            var cookies = document.cookie.split(';');
-                            for (var i = 0; i < cookies.length; i++) {
-                                var cookie = jQuery.trim(cookies[i]);
-                                // Does this cookie string begin with the name we want?
-                                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                    break;
-                                }
-                            }
-                        }
-                        return cookieValue;
-                    }
-
-                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                        // Only send the token to relative URLs i.e. locally.
-                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                    }
-                }
-            });
-            $.ajax({
-                type: "POST",
-                url: "/slips/new",
-                data: slip,
-                success: function () {
-                    alert("Your slip is saved");
-                },
-                dataType: "json",
-                contentType: "application/json"
-            });
-        }
-    </script>
-    <div class="row">
-        <div class="col-md-12">
-            <h2>Your Slip</h2>
-            <div class="card">
-                <ul class="list-group list-group-flush">
-                    <div id="appendHere">
-                    </div>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <button onclick=sendSlipToServer() class="btn btn-primary">Send</button>
-    <div class="row">
-        <div class="col-md-12">
-            <h2>Latest posts</h2>
-            <div class="card">
-                <ul class="list-group list-group-flush">
-                    {% for row in postList %}
-                        <li class="list-group-item">
-                            <a href="customers/?id={{ row.0 }}">{{ row.1 }}</a> shared: {{ row.2 }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </div>
-    {% include "frontend/footer.html" %}
+					if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+						// Only send the token to relative URLs i.e. locally.
+						xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+					}
+				}
+			});
+			$.ajax({
+				type: "POST",
+				url: "/slips/new",
+				data: JSON.stringify(slip),
+				success: function () {
+					alert("Your slip is saved");
+					window.location.href = "index";
+				},
+				error: function () {
+					alert("Login first");
+				},
+				dataType: "json",
+				contentType: "application/json"
+			});
+		}
+	</script>
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Your Slip</h2>
+			<div class="card">
+				<ul class="list-group list-group-flush">
+					<div id="appendHere">
+					</div>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<button onclick=sendSlipToServer(); class="btn btn-primary">Send</button>
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Latest posts</h2>
+			<div class="card">
+				<ul class="list-group list-group-flush">
+					{% for row in postList %}
+						<li class="list-group-item">
+							<a href="customers/?id={{ row.0 }}">{{ row.1 }}</a> shared: {{ row.2 }}
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+	{% include "frontend/footer.html" %}
 </div> <!-- /container -->
 <script src="{% static 'js/vendor/jquery.min.js' %}"></script>
 <script>
-    window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+	window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
 </script>
-<script src="js/vendor/bootstrap.min.js"></script>
-<script src="js/main.js"></script>
+<script src="{% static "js/vendor/bootstrap.js " %}"></script>
 </body>
 
 </html>

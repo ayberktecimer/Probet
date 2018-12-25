@@ -1,3 +1,4 @@
+import json
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 import sqlite3
@@ -31,7 +32,6 @@ def index(request):
 		cursor = connection.cursor()
 		cursor.execute("SELECT customer_id, first_name, pmessage FROM Post NATURAL JOIN Customer")
 		postList = cursor.fetchall()
-
 
 		context = {
 			"postList": postList,
@@ -107,11 +107,13 @@ def customers(request):
 	# ID düzeltilecek hep 1 veriyoz, front end kısmında kupon id, ve status
 
 	cursor.execute(
-		"SELECT home.name, away.name, odd_type,odd_amount FROM Odd NATURAL JOIN Game INNER JOIN Team home ON home.team_id=home_team_id INNER JOIN Team away ON away.team_id=away_team_id NATURAL JOIN INCLUDES NATURAL JOIN BetSlip WHERE customer_id = ? AND status = 'waiting' ", [userId])
+		"SELECT home.name, away.name, odd_type,odd_amount FROM Odd NATURAL JOIN Game INNER JOIN Team home ON home.team_id=home_team_id INNER JOIN Team away ON away.team_id=away_team_id NATURAL JOIN INCLUDES NATURAL JOIN BetSlip WHERE customer_id = ? AND status = 'waiting' ",
+		[userId])
 	get_current_slip = cursor.fetchall()
 
 	cursor.execute(
-		"SELECT home.name, away.name, odd_type, odd_amount FROM Odd NATURAL JOIN Game INNER JOIN Team home ON home.team_id=home_team_id INNER JOIN Team away ON away.team_id=away_team_id NATURAL JOIN INCLUDES NATURAL JOIN BetSlip WHERE customer_id = ? AND status != 'waiting' ", [userId])
+		"SELECT home.name, away.name, odd_type, odd_amount FROM Odd NATURAL JOIN Game INNER JOIN Team home ON home.team_id=home_team_id INNER JOIN Team away ON away.team_id=away_team_id NATURAL JOIN INCLUDES NATURAL JOIN BetSlip WHERE customer_id = ? AND status != 'waiting' ",
+		[userId])
 	get_old_slip = cursor.fetchall()
 	if customer is None:
 		return HttpResponseRedirect("https://media.giphy.com/media/9SJazLPHLS8roFZMwZ/giphy.gif")
@@ -252,8 +254,19 @@ def getGamesAndOdds():
 
 
 def createBetSlip(request):
-	print(request.body)
-	return HttpResponse("dünya 5ten büyük")
+	slip = json.loads(request.body.decode("utf-8"))
+
+	if 'customerId' not in slip:
+		return HttpResponse(403)
+	else:
+		connection = sqlite3.connect('db.sqlite3')
+		cursor = connection.cursor()
+		cursor.execute("")  # TODO: Add slip to database, SQL here
+		connection.commit()
+		connection.close()
+
+		return HttpResponse(200)
+
 
 def sa(request):
 	return HttpResponse("as")
