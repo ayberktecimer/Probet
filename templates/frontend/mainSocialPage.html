@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!doctype html>
 <html class="no-js" lang="">
 
@@ -7,7 +8,7 @@
   <title>ProBet</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
   <style>
     a{
     color:#47649F;
@@ -44,9 +45,9 @@ body{
     font-weight:bold;    
 }
         </style>
-  <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="css/main.css">
-  <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <script src="{% static 'js/vendor/modernizr-2.8.3-respond-1.4.2.min.js' %}"></script>
 </head>
 
 <body>
@@ -98,22 +99,26 @@ body{
       </div>
     </div>
   </div>
+  {% for foo in posts %}
   <div class="container">
     <div class="col-md-5">
       <div class="panel panel-default">
         <div class="panel-body">
+
           <section class="post-heading">
             <div class="row">
               <div class="col-md-11">
                 <div class="media">
                   <div class="media-left">
                     <a href="#">
-                                  <img class="media-object photo-profile" src="http://0.gravatar.com/avatar/38d618563e55e6082adf4c8f8c13f3e4?s=40&d=mm&r=g" width="40" height="40" alt="...">
+                        <img class="media-object photo-profile"
+                             src="{% static 'images/customerProfilePictures/' %}{{ foo.11 }}" width="40" height="40"
+                             alt="...">
                                 </a>
                   </div>
                   <div class="media-body">
-                    <a href="#" class="anchor-username"><h4 class="media-heading">Ferdi Özkan</h4></a>
-                    <a href="#" class="anchor-time">51 mins</a>
+                      <a href="#" class="anchor-username"><h4 class="media-heading">{{ foo.7 }} {{ foo.8 }}</h4></a>
+                      <a href="#" class="anchor-time">{{ foo.1 }}</a>
                   </div>
                 </div>
               </div>
@@ -122,9 +127,11 @@ body{
               </div>
             </div>
           </section>
+
           <section class="post-body">
             <div class="card">
               <ul class="list-group list-group-flush">
+                  <p>  {{ foo.2 }}</p>
                 <li class="list-group-item">
                   <p> <strong style="color:blue">Real Madrid - Atletico Madrid         </strong> </p>
                   <p>Match Result: <b>1</b> </p>
@@ -181,10 +188,12 @@ body{
               </div>
             </div>
           </section>
+
         </div>
       </div>
     </div>
   </div>
+  {% endfor %}
   <div class="container">
     <div class="col-md-5">
       <div class="panel panel-default">
@@ -209,13 +218,16 @@ body{
               </div>
             </div>
           </section>
-          <section class="post-body">
+
+            <section class="post-body">
             <div class="card">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                  <p> <strong style="color:blue">Real Madrid - Atletico Madrid         </strong> </p>
+
+                    <p><strong style="color:blue">Real Madrid - Atletico Madrid {{ foo.2 }}       </strong></p>
                   <p>Match Result: <b>1</b> </p>
                   <p>Odd: <b>2.60</b> </p>
+
                 </li>
                 <li class="list-group-item">
                   <p> <strong style="color:blue"> Karabükspor - Adana Demir Spor   </strong></p>

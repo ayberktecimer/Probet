@@ -274,3 +274,15 @@ def sa(request):
 
 def pdfReports(request):
 	return HttpResponseRedirect("http://emre.sulun.ug.bilkent.edu.tr/cs353")
+
+
+def socialbetting(request):
+	connection = sqlite3.connect('db.sqlite3')
+	cursor = connection.cursor()
+	cursor.execute("SELECT * FROM Post NATURAL JOIN Customer")
+	posts = cursor.fetchall()
+	context = {
+		"posts": posts
+	}
+	connection.close()
+	return render(request, "frontend/mainSocialPage.html", context)
