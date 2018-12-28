@@ -179,14 +179,14 @@
 				type: "POST",
 				url: "/slips/new",
 				data: JSON.stringify(slip),
-				success: function () {
+				success: function (response) {
 					alert("Your slip is saved");
-					window.location.href = "index";
+					window.location.href = "/customers/?id={{ request.session.tckn }}";
 				},
-				error: function () {
+				error: function (response) {
 					alert("Login first");
+					console.log(response);
 				},
-				dataType: "json",
 				contentType: "application/json"
 			});
 		}

@@ -257,7 +257,7 @@ def createBetSlip(request):
 	slip = json.loads(request.body.decode("utf-8"))
 
 	if 'customerId' not in slip:
-		return HttpResponse(403)
+		return HttpResponse(status=403)
 	else:
 		connection = sqlite3.connect('db.sqlite3')
 		cursor = connection.cursor()
@@ -265,7 +265,7 @@ def createBetSlip(request):
 		connection.commit()
 		connection.close()
 
-		return HttpResponse(200)
+		return HttpResponse(status=200)
 
 
 def sa(request):
