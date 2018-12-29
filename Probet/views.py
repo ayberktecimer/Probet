@@ -50,11 +50,14 @@ def signup(request):
 		post = request.POST
 		parameters = [post['tckn'], post['name'], post['lastname'], post['email'], post['pass'], post['birthdate']]
 
-		cursor.execute("INSERT INTO Customer VALUES (?, NULL, NULL, NULL, ?, ?, ?, ?, NULL, 0, ?)", parameters)
+		try:
+			cursor.execute("INSERT INTO Customer VALUES (?, NULL, NULL, NULL, ?, ?, ?, ?, NULL, 0, ?)", parameters)
+		except sqlite3.IntegrityError:
+			return HttpResponse("TCKN already exists!", status=409)
 
 		connection.commit()
 		connection.close()
-		return HttpResponse("congrats, you are signed up")
+		return HttpResponse("congrats, you are signed up <a href='/'>Sign in</a>")
 
 	else:  # GET request
 		return render(request, "frontend/signup.html")
@@ -104,7 +107,6 @@ def customers(request):
 	cursor.execute("SELECT * FROM Customer WHERE customer_id=?",
 				   [userId])  # https://stackoverflow.com/a/16856730/5964489
 	customer = cursor.fetchone()
-	# ID düzeltilecek hep 1 veriyoz, front end kısmında kupon id, ve status
 
 	cursor.execute(
 		"SELECT home.name, away.name, odd_type,odd_amount FROM Odd NATURAL JOIN Game INNER JOIN Team home ON home.team_id=home_team_id INNER JOIN Team away ON away.team_id=away_team_id NATURAL JOIN INCLUDES NATURAL JOIN BetSlip WHERE customer_id = ? AND status = 'waiting' ",
@@ -267,7 +269,7 @@ def createBetSlip(request):
 		connection = sqlite3.connect('db.sqlite3')
 		cursor = connection.cursor()
 		cursor.execute("INSERT INTO BetSlip VALUES (NULL, ?, ?, ?, current_date, 'waiting');",
-					   [customerId, betAmount, numberOfGames])  # TODO: Add slip to database, SQL here
+					   [customerId, betAmount, numberOfGames])
 
 		for game in games:
 			cursor.execute("INSERT INTO Includes VALUES (?, ?, ?, last_insert_rowid());",

@@ -24,27 +24,36 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-6 img">
-			<img src="{% static 'images/customerProfilePictures/' %}{{ customer.8 }}" alt="" class="img-rounded">
-			<h2>Following</h2>
-			<ul>
-				{% for guy in following %}
-					<li><a href="/customers/?id={{ guy.0 }}">{{ guy.1 }}</a></li>
-				{% endfor %}
-			</ul>
-			<h2>Followers</h2>
-			<ul>
-				{% for guy in followers %}
-					<li><a href="/customers/?id={{ guy.0 }}">{{ guy.1 }}</a></li>
-				{% endfor %}
-			</ul>
+			{% if customer.8 == None %}
+				<img src="{% static 'images/customerProfilePictures/noPicture.jpg' %}" alt="" class="img-rounded">
+			{% else %}
+				<img src="{% static 'images/customerProfilePictures/' %}{{ customer.8 }}" alt="" class="img-rounded">
+			{% endif %}
+
+			{% if following|length > 0 %}
+				<h2>Following</h2>
+				<ul>
+					{% for guy in following %}
+						<li><a href="/customers/?id={{ guy.0 }}">{{ guy.1 }}</a></li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+
+			{% if followers|length > 0 %}
+				<h2>Followers</h2>
+				<ul>
+					{% for guy in followers %}
+						<li><a href="/customers/?id={{ guy.0 }}">{{ guy.1 }}</a></li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+
 		</div>
 		<div class="col-md-6">
 			<p>
-				<strong>ID: </strong> {{ customer.0 }} <br>
-				{{ customer.4 }} {{ customer.5 }} <br>
-				{{ customer.2 }} <br>
-				{{ customer.6 }} <br>
-				<strong>Rank: </strong>{{ customer.9 }}<br>
+			<h3>{{ customer.4 }} {{ customer.5 }}</h3> <br>
+			<strong>ID: </strong> {{ customer.0 }} <br>
+			<strong>Rank: </strong>{{ customer.9 }}<br>
 			</p>
 			{% if followingStatus == 0 %}
 				<a href="follow/?id={{ customer.0 }}">
@@ -57,8 +66,9 @@
 			{% else %}
 
 			{% endif %}
-			<button class="btn btn-primary">Send direct message</button>
-			<button class="btn btn-danger">Block</button>
+			<a href="mailto:{{ customer.6 }}">
+				<button class="btn btn-primary">Send email</button>
+			</a>
 			<div class="row">
 				<div class="col-md-12">
 					<h3>Current Slips of User</h3>
