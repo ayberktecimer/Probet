@@ -259,9 +259,20 @@ def createBetSlip(request):
 	if 'customerId' not in slip or slip['customerId'] is None:
 		return HttpResponse(status=403)
 	else:
+		customerId = slip['customerId']
+		betAmount = slip['betAmount']
+		games = slip['games']
+		numberOfGames = len(games)
+
 		connection = sqlite3.connect('db.sqlite3')
 		cursor = connection.cursor()
-		cursor.execute("")  # TODO: Add slip to database, SQL here
+		cursor.execute("INSERT INTO BetSlip VALUES (NULL, ?, ?, ?, current_date, 'waiting');",
+					   [customerId, betAmount, numberOfGames])  # TODO: Add slip to database, SQL here
+
+		for game in games:
+			cursor.execute("INSERT INTO Includes VALUES (?, ?, ?, last_insert_rowid());",
+						   [game['gameId'], game['oddType'], customerId])
+
 		connection.commit()
 		connection.close()
 

@@ -179,19 +179,18 @@
 			if ($('#betAmount').val() < 3)
 				alert("Bet amount must be at least 3 TL!");
 			else {
-				slip.betAmount = $('betAmount').val();
+				slip.betAmount = $('#betAmount').val();
 
 				$.ajax({
 					type: "POST",
 					url: "/slips/new",
 					data: JSON.stringify(slip),
-					success: function (response) {
+					success: function () {
 						alert("Your slip is saved");
 						window.location.href = "/customers/?id={{ request.session.tckn }}";
 					},
-					error: function (response) {
+					error: function () {
 						alert("Login first");
-						console.log(response);
 					},
 					contentType: "application/json"
 				});
