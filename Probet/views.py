@@ -256,7 +256,7 @@ def getGamesAndOdds():
 def createBetSlip(request):
 	slip = json.loads(request.body.decode("utf-8"))
 
-	if 'customerId' not in slip:
+	if 'customerId' not in slip or slip['customerId'] is None:
 		return HttpResponse(status=403)
 	else:
 		connection = sqlite3.connect('db.sqlite3')

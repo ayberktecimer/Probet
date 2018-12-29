@@ -39,6 +39,7 @@
 			<script>
 				var slip = {
 					"customerId": null,
+					betAmount: 3.00,
 					"games": []
 				};
 
@@ -175,20 +176,26 @@
 					}
 				}
 			});
-			$.ajax({
-				type: "POST",
-				url: "/slips/new",
-				data: JSON.stringify(slip),
-				success: function (response) {
-					alert("Your slip is saved");
-					window.location.href = "/customers/?id={{ request.session.tckn }}";
-				},
-				error: function (response) {
-					alert("Login first");
-					console.log(response);
-				},
-				contentType: "application/json"
-			});
+			if ($('#betAmount').val() < 3)
+				alert("Bet amount must be at least 3 TL!");
+			else {
+				slip.betAmount = $('betAmount').val();
+
+				$.ajax({
+					type: "POST",
+					url: "/slips/new",
+					data: JSON.stringify(slip),
+					success: function (response) {
+						alert("Your slip is saved");
+						window.location.href = "/customers/?id={{ request.session.tckn }}";
+					},
+					error: function (response) {
+						alert("Login first");
+						console.log(response);
+					},
+					contentType: "application/json"
+				});
+			}
 		}
 	</script>
 	<div class="row">
@@ -202,7 +209,11 @@
 			</div>
 		</div>
 	</div>
-	<button onclick=sendSlipToServer(); class="btn btn-primary">Send</button>
+	<div>
+		<input type="number" required placeholder="Amount (min. 3 TL)" id="betAmount" name="betAmount" min="3"
+			   step=".01">
+		<button onclick=sendSlipToServer(); class="btn btn-primary">Create bet slip</button>
+	</div>
 	<div class="row">
 		<div class="col-md-12">
 			<h2>Latest posts</h2>
