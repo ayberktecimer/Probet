@@ -2,6 +2,7 @@ import json
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 import sqlite3
+import itertools
 
 
 def index(request):
@@ -294,8 +295,13 @@ def socialbetting(request):
 	cursor = connection.cursor()
 	cursor.execute("SELECT * FROM Post NATURAL JOIN Customer")
 	posts = cursor.fetchall()
+	cursor.execute(
+		"SELECT COUNT(*) FROM Post INNER JOIN Post_like ON Post.post_id = Post_like.post_id GROUP BY Post.post_id")
+	likeCount = cursor.fetchall()
+	mylist = itertools.zip_longest(posts, likeCount)
 	context = {
-		"posts": posts
+		"posts": mylist
 	}
+
 	connection.close()
 	return render(request, "frontend/mainSocialPage.html", context)

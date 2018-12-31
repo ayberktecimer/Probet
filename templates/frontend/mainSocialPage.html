@@ -99,7 +99,10 @@ body{
       </div>
     </div>
   </div>
-  {% for foo in posts %}
+
+
+  {% for foo, bar in posts %}
+
   <div class="container">
     <div class="col-md-5">
       <div class="panel panel-default">
@@ -146,6 +149,7 @@ body{
           <section class="post-footer">
             <hr>
             <div class="post-footer-option container">
+                <p></p><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i> {{ bar.0 }}</a></p>
               <ul class="list-unstyled">
                 <li><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i> Like</a></li>
                 <li><a href="#"><i class="glyphicon glyphicon-comment"></i> Comment</a></li>
