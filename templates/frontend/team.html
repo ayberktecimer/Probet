@@ -10,32 +10,34 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 	<style>
-	body {
-		padding-top: 50px;
-		padding-bottom: 20px;
-	}
+		body {
+			padding-top: 50px;
+			padding-bottom: 20px;
+		}
 	</style>
 </head>
 
 <body>
-	<br>
-	{% include "frontend/navbar.html" %}
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 img">
-				<img src="{% static 'images/TeamPictures/' %}{{ team.5 }}" alt="" class="img-rounded">
-    		</div>
-				<div class="col-md-6">
-					<p>
-						<strong>{{ team.1 }}</strong> <br>
-						<strong>Country: </strong>{{ team.4 }} <br>
-						{{ team.2 }} <br>
-						<strong>Place: </strong>{{ team.3 }} <br>
-					</p>
-					<button class="btn btn-primary">View statistics</button>
-				</div>
-			</div>
+<br>
+{% include "frontend/navbar.html" %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-6 img">
+			<img src="{% static 'images/TeamPictures/' %}{{ team.5 }}" alt="" class="img-rounded">
 		</div>
+		<div class="col-md-6">
+			<p>
+				<strong>{{ team.1 }}</strong> <br>
+				<strong>Country: </strong>{{ team.4 }} <br>
+				{{ team.2 }} <br>
+				<strong>Place: </strong>{{ team.3 }} <br>
+			</p>
+			<br>
+			<h4>Average of scores played against teams which are in the first three places of the league.</h4>
+			<p>= {{ averageScore }}</p>
+		</div>
+	</div>
+</div>
 </body>
 
 </html>
