@@ -387,3 +387,54 @@ def postlike(request):
 
 	connection.close()
 	return HttpResponse()
+
+def updateprofile(request):
+	if request.method == "GET":
+		return render(request, "frontend/updateProfile.html")
+	elif request.method == "POST":
+		usr = request.session['tckn']
+		connection = sqlite3.connect('db.sqlite3')
+		cursor = connection.cursor()
+		cursor.execute(
+			"SELECT  fav_team, phone_number, iban, email, password FROM Customer WHERE customer_id = ?;", [usr])
+
+
+		profile_data = cursor.fetchone()
+
+		fav_team = profile_data[0]
+		phone_number = profile_data[1]
+		kban = profile_data[2]
+		email = profile_data[3]
+		password = profile_data[4]
+
+
+		if len(request.POST['favTeam']) != 0:
+			fav_team = request.POST['favTeam']
+		if len(request.POST['iban']) != 0:
+			kban = request.POST['iban']
+		if len(request.POST['email']) != 0:
+			email = request.POST['email']
+		if len(request.POST['phone']) != 0:
+			phone_number = request.POST['phone']
+		if len(request.POST['newpass']) != 0:
+			password = request.POST['newpass']
+
+		print(fav_team)
+		print(phone_number)
+		print(kban)
+		print(email)
+		print(password)
+
+		cursor.execute("SELECT name FROM TEAM")
+		teams = cursor.fetchall()
+
+
+		cursor.execute("UPDATE Customer SET fav_team = ?, phone_number = ?, iban = ?, email = ?, password = ? WHERE customer_id = ?",[fav_team, phone_number, kban, email, password, usr])
+		connection.commit()
+		connection.close()
+		'''
+		UPDATE Customers
+		SET ContactName='Alfred Schmidt', City='Frankfurt'
+		WHERE CustomerID=1;
+		'''
+		return render(request, "frontend/updateProfile.html")
