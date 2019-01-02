@@ -319,9 +319,15 @@ def socialbetting(request):
 		"SELECT COUNT(*) FROM Post INNER JOIN Post_like ON Post.post_id = Post_like.post_id GROUP BY Post.post_id")
 	likeCount = cursor.fetchall()
 	mylist = itertools.zip_longest(posts, likeCount)
+
+	cursor.execute("SELECT first_name, last_name, profile_pic FROM Customer WHERE customer_id=?",
+				   [request.session['tckn']])
+	currentUser = cursor.fetchone()
+
 	context = {
 		"posts": mylist,
-		"comments": comments
+		"comments": comments,
+		"currentUser": currentUser
 	}
 
 	connection.close()
@@ -446,3 +452,20 @@ def updateprofile(request):
 		connection.commit()
 		connection.close()
 		return render(request, "frontend/updateProfile.html")
+
+
+def postcomment(request):
+	comment = json.loads(request.body.decode("utf-8"))
+	customerId = comment['customerId']
+	postId = comment['postId']
+	c_message = comment['commentContent']
+
+	connection = sqlite3.connect('db.sqlite3')
+	cursor = connection.cursor()
+
+	cursor.execute("INSERT INTO Comment(post_id, c_message, date, customer_id) VALUES(?, ?,current_date, ?)",
+				   [postId, c_message, customerId])
+	connection.commit()
+
+	connection.close()
+	return HttpResponse()

@@ -32,6 +32,7 @@ from .views import socialbetting
 from .views import searchCustomer
 from .views import updateprofile
 from .views import postlike
+from .views import postcomment
 
 urlpatterns = [
 	url(r'^sa$', sa),
@@ -49,6 +50,7 @@ urlpatterns = [
 	url(r'^mainsocialpage', socialbetting),
 	url(r'^searchCustomer', searchCustomer),
 	url(r'^posts/like', postlike),
+	url(r'^comment/new', postcomment),
 	url(r'^updateprofilepage',updateprofile),
 	url(r'', index)
 ]

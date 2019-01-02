@@ -3,389 +3,332 @@
 <html class="no-js" lang="">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>ProBet</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <style>
-        a {
-            color: #47649F;
-        }
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>ProBet</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<style>
+		a {
+			color: #47649F;
+		}
 
-        body {
+		body {
 
-            font-family: 'helvetica';
+			font-family: 'helvetica';
 
-        }
+		}
 
-        /*-- Bootstrap Override Style --*/
+		/*-- Bootstrap Override Style --*/
 
 
-        /*-- Content Style --*/
-        .post-footer-option li {
-            width:% 100;
-            float: left;
-            margin-right: 30px;
-            padding-bottom: 30px;
-        }
+		/*-- Content Style --*/
+		.post-footer-option li {
+			width:% 100;
+			float: left;
+			margin-right: 30px;
+			padding-bottom: 30px;
+		}
 
-        .post-footer-option li a {
-            color: #AFB4BD;
-            font-weight: 500;
-            font-size: 1.3rem;
-        }
+		.post-footer-option li a {
+			color: #AFB4BD;
+			font-weight: 500;
+			font-size: 1.3rem;
+		}
 
-        .photo-profile {
-            border: 1px solid #DDD;
-        }
+		.photo-profile {
+			border: 1px solid #DDD;
+		}
 
-        .anchor-username h4 {
-            font-weight: bold;
-        }
-    </style>
-    <link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
-    <link href="{% static 'css/main.css' %}" rel="stylesheet">
-    <script src="{% static 'js/vendor/modernizr-2.8.3-respond-1.4.2.min.js' %}"></script>
-    <script src="{% static 'js/vendor/jquery.min.js' %}"></script>
-    <script>
-        window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
-    </script>
-    <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
-    <script>
-        function postLike(postId) {
-            $.ajaxSetup({ // Some django related shit
-                beforeSend: function (xhr, settings) {
-                    function getCookie(name) {
-                        var cookieValue = null;
-                        if (document.cookie && document.cookie != '') {
-                            var cookies = document.cookie.split(';');
-                            for (var i = 0; i < cookies.length; i++) {
-                                var cookie = jQuery.trim(cookies[i]);
-                                // Does this cookie string begin with the name we want?
-                                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                    break;
-                                }
-                            }
-                        }
-                        return cookieValue;
-                    }
+		.anchor-username h4 {
+			font-weight: bold;
+		}
+	</style>
+	<link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+	<link href="{% static 'css/main.css' %}" rel="stylesheet">
+	<script src="{% static 'js/vendor/modernizr-2.8.3-respond-1.4.2.min.js' %}"></script>
+	<script src="{% static 'js/vendor/jquery.min.js' %}"></script>
+	<script>
+		window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+	</script>
+	<script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
+	<script>
+		function postLike(postId) {
+			$.ajaxSetup({ // Some django related shit
+				beforeSend: function (xhr, settings) {
+					function getCookie(name) {
+						var cookieValue = null;
+						if (document.cookie && document.cookie != '') {
+							var cookies = document.cookie.split(';');
+							for (var i = 0; i < cookies.length; i++) {
+								var cookie = jQuery.trim(cookies[i]);
+								// Does this cookie string begin with the name we want?
+								if (cookie.substring(0, name.length + 1) == (name + '=')) {
+									cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+									break;
+								}
+							}
+						}
+						return cookieValue;
+					}
 
-                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                        // Only send the token to relative URLs i.e. locally.
-                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                    }
-                }
-            });
+					if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+						// Only send the token to relative URLs i.e. locally.
+						xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+					}
+				}
+			});
 
-            $.ajax({
-                type: "POST",
-                url: "/posts/like",
-                data: JSON.stringify({
-                    postId: postId,
-                    customerId: {{ request.session.tckn }}
-                }),
-                success: function () {
-                    window.location.reload();
+			$.ajax({
+				type: "POST",
+				url: "/posts/like",
+				data: JSON.stringify({
+					postId: postId,
+					customerId: {{ request.session.tckn }}
+				}),
+				success: function () {
+					window.location.reload();
 
-                },
-                error: function () {
-                    alert("Already liked");
-                },
-                contentType: "application/json"
-            });
-        }
-    </script>
+				},
+				error: function () {
+					alert("Already liked");
+				},
+				contentType: "application/json"
+			});
+		}
+
+		function sendCommentToServer(postId, commentContent) {
+
+			$.ajaxSetup({ // Some django related shit
+				beforeSend: function (xhr, settings) {
+					function getCookie(name) {
+						var cookieValue = null;
+						if (document.cookie && document.cookie != '') {
+							var cookies = document.cookie.split(';');
+							for (var i = 0; i < cookies.length; i++) {
+								var cookie = jQuery.trim(cookies[i]);
+								// Does this cookie string begin with the name we want?
+								if (cookie.substring(0, name.length + 1) == (name + '=')) {
+									cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+									break;
+								}
+							}
+						}
+						return cookieValue;
+					}
+
+					if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+						// Only send the token to relative URLs i.e. locally.
+						xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+					}
+				}
+			});
+
+
+			$.ajax({
+				type: "POST",
+				url: "/comment/new",
+				data: JSON.stringify({
+					commentContent: commentContent,
+					postId: postId,
+					customerId: {{ request.session.tckn }}
+				}),
+				success: function () {
+					window.location.reload();
+
+				},
+				error: function () {
+					alert("asdasd");
+				},
+				contentType: "application/json"
+			});
+
+		}
+
+
+	</script>
 </head>
 
 <body>
+{% include "frontend/navbar.html" %}
 <nav class="navbar navbar-inverse" role="navigation">
-    <div class="container">
-        <div id="navBar">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                        aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">ProBet</a>
-            </div>
-            <p class="navbar-btn navbar-right">
-                <a href="signup.html" class="btn btn-primary">Sign up</a>
-            </p>
-            <script>
-                function signInAttempt() {
-                    var success = 1;
-                    var container = $('#navBar');
-                    if (success == 1) {
-                        container.empty();
-                        container.append("<a class='navbar-right' href='profile.html'>Adahan Yalçınkaya</a>");
-                    }
-                }
-            </script>
-            <form class="navbar-form navbar-right" role="form">
-                <div class="form-group">
-                    <input type="number" placeholder="TCKN" min="10000000000" max="99999999999" class="form-control"
-                           required>
-                </div>
-                <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control" required>
-                </div>
-                <button type="submit" onclick="signInAttempt()" class="btn btn-success">Sign in</button>
-            </form>
-        </div>
-    </div>
+	<div class="container">
+		<div id="navBar">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+						aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html">ProBet</a>
+			</div>
+			<p class="navbar-btn navbar-right">
+				<a href="signup.html" class="btn btn-primary">Sign up</a>
+			</p>
+			<script>
+				function signInAttempt() {
+					var success = 1;
+					var container = $('#navBar');
+					if (success == 1) {
+						container.empty();
+						container.append("<a class='navbar-right' href='profile.html'>Adahan Yalçınkaya</a>");
+					}
+				}
+			</script>
+			<form class="navbar-form navbar-right" role="form">
+				<div class="form-group">
+					<input type="number" placeholder="TCKN" min="10000000000" max="99999999999" class="form-control"
+						   required>
+				</div>
+				<div class="form-group">
+					<input type="password" placeholder="Password" class="form-control" required>
+				</div>
+				<button type="submit" onclick="signInAttempt()" class="btn btn-success">Sign in</button>
+			</form>
+		</div>
+	</div>
 </nav>
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <!------ Include the above in your HEAD tag ---------->
 <div class="container">
-    <div class="col-md-5">
-        <div class="panel panel-default">
-            <div class="panel-body">
-            </div>
-        </div>
-    </div>
+	<div class="col-md-5">
+		<div class="panel panel-default">
+			<div class="panel-body">
+			</div>
+		</div>
+	</div>
 </div>
 
 
 {% for foo, bar in posts %}
 
-    <div class="container">
-        <div class="col-md-5">
-            <div class="panel panel-default">
-                <div class="panel-body">
+	<div class="container">
+		<div class="col-md-5">
+			<div class="panel panel-default">
+				<div class="panel-body">
 
-                    <section class="post-heading">
-                        <div class="row">
-                            <div class="col-md-11">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#">
-                                            <img class="media-object photo-profile"
-                                                 src="{% static 'images/customerProfilePictures/' %}{{ foo.12 }}"
-                                                 width="40" height="40"
-                                                 alt="...">
-                                        </a>
-                                    </div>
-                                    <div class="media-body">
-                                        <a href="#" class="anchor-username"><h4
-                                                class="media-heading">{{ foo.8 }} {{ foo.9 }}</h4></a>
-                                        <script>
-                                            var container = $('#{{ foo.0 }}a');
-                                            var date = new Date({{ foo.1 }} * 1000
-                                            )
-                                            ;
-                                            // Hours part from the timestamp
-                                            var hours = date.getHours();
-                                            // Minutes part from the timestamp
-                                            var minutes = "0" + date.getMinutes();
-                                            // Seconds part from the timestamp
-                                            var seconds = "0" + date.getSeconds();
+					<section class="post-heading">
+						<div class="row">
+							<div class="col-md-11">
+								<div class="media">
+									<div class="media-left">
+										<a href="#">
+											<img class="media-object photo-profile"
+												 src="{% static 'images/customerProfilePictures/' %}{{ foo.12 }}"
+												 width="40" height="40"
+												 alt="...">
+										</a>
+									</div>
+									<div class="media-body">
+										<a href="#" class="anchor-username"><h4
+												class="media-heading">{{ foo.8 }} {{ foo.9 }}</h4></a>
+										<script>
+											var container = $('#{{ foo.0 }}a');
+											var date = new Date({{ foo.1 }} * 1000
+											)
+											;
+											// Hours part from the timestamp
+											var hours = date.getHours();
+											// Minutes part from the timestamp
+											var minutes = "0" + date.getMinutes();
+											// Seconds part from the timestamp
+											var seconds = "0" + date.getSeconds();
 
-                                            // Will display time in 10:30:23 format
-                                            var formattedTime = hours + 'a:' + minutes.substr(-2) + 'a:' + seconds.substr(-2);
-                                            container.append("<a href='#' class='anchor-time'>");
-                                            container.append(formattedTime);
-                                            container.append("</a>");
-                                        </script>
+											// Will display time in 10:30:23 format
+											var formattedTime = hours + 'a:' + minutes.substr(-2) + 'a:' + seconds.substr(-2);
+											container.append("<a href='#' class='anchor-time'>");
+											container.append(formattedTime);
+											container.append("</a>");
+										</script>
 
-                                        <div id="{{ foo.0 }}a">
-                                            <p>awdawdawdawd</p>
-                                        </div>
-                                        <p> {{ foo.2 }} </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <a href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>
-                            </div>
-                        </div>
-                    </section>
+										<div id="{{ foo.0 }}a">
+										</div>
+										<p> {{ foo.2 }} </p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<a href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>
+							</div>
+						</div>
+					</section>
 
-                    <section class="post-footer">
-                        <hr>
-                        <div class="post-footer-option container">
-                            <p><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i> {{ bar.0 }}</a></p>
-                            <ul class="list-unstyled">
-                                <li><a onclick=postLike({{ foo.0 }}); id="like"><i
-                                        class="glyphicon glyphicon-thumbs-up"></i> Like</a></li>
-                                <li><a href="#"><i class="glyphicon glyphicon-comment"></i> Comment</a></li>
-                                <li><a href="#"><i class="glyphicon glyphicon-share-alt"></i> Share</a></li>
-                                <li><a href="#"><i class="glyphicon glyphicon-repeat"></i> Replay</a></li>
-                                <li><a href="#"><i class="glyphicon glyphicon-flag"></i> Flag</a></li>
-                            </ul>
-                        </div>
-                        <a>comment burda mı başlıyo</a>
-                        {% for comment in comments %}
-                            {% if comment.1 = foo.0 %}
+					<section class="post-footer">
+						<hr>
+						<div class="post-footer-option container">
+							<p><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i> {{ bar.0 }}</a></p>
+							<ul class="list-unstyled">
+								<li><a onclick=postLike({{ foo.0 }}); id="like"><i
+										class="glyphicon glyphicon-thumbs-up"></i> Like</a></li>
+							</ul>
+						</div>
+						{% for comment in comments %}
+							{% if comment.1 == foo.0 %}
 
-                                <div class="post-footer-comment-wrapper">
-                                <div class="comment-form">
-                                </div>
-                                <div class="comment">
-                                <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object photo-profile"
-                                             src="{% static 'images/customerProfilePictures/' %}{{ comment.12 }}"
-                                             width="32" height="32" alt="...">
-                                    </a>
-                                </div>
-                                <div class="media-body">
+								<div class="post-footer-comment-wrapper">
+								<div class="comment-form">
+								</div>
+								<div class="comment">
+								<div class="media">
+								<div class="media-left">
+									<a href="#">
+										<img class="media-object photo-profile"
+											 src="{% static 'images/customerProfilePictures/' %}{{ comment.12 }}"
+											 width="32" height="32" alt="...">
+									</a>
+								</div>
+								<div class="media-body">
 
-                                    <a href="#" class="anchor-username"><h4 class="media-heading">{{ comment.8 }}</h4>
-                                    </a>
-                                    <p>{{ comment.2 }} </p>
-                                    <div class="post-footer-option container">
-                                        <ul class="list-unstyled">
-                                            <li><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i> Like</a>
-                                            </li>
-                                            <a href="#" class="anchor-time">{{ comment.3 }}</a>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <br>
-                            {% endif %}
+									<a href="#" class="anchor-username"><h4
+											class="media-heading">{{ comment.8 }} {{ comment.9 }}</h4>
+									</a>
+									<p>{{ comment.2 }} </p>
+									<div class="post-footer-option container">
+										<ul class="list-unstyled">
 
-                        {% endfor %}
-                        <div class="media-left">
-                            <a href="#">
-                                <img class="media-object photo-profile"
-                                     src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-                                     width="32" height="32" alt="...">
-                            </a>
-                        </div>
-                        <div class="media-body">
-                            <a href="#" class="anchor-username"><h4 class="media-heading">John Smith</h4>
-                            </a>
-                            <span><input type="text" class="form-control" id="name2"
-                                         placeholder="Post a comment..."/> <br> <button type="primary"
-                                                                                        onclick="comment()"
-                                                                                        class="btn btn-primary">Post</button> </span>
-                        </div>
-                        </div>
-                        </div>
-                        </div>
-                        <a>comment burda mı başlıyo</a>
-                    </section>
+											<a href="#" class="anchor-time">{{ comment.3 }}</a>
+										</ul>
+									</div>
+								</div>
+								<br>
+							{% endif %}
 
-                </div>
-            </div>
-        </div>
-    </div>
+						{% endfor %}
+						<div class="media-left">
+							<a href="#">
+								<img class="media-object photo-profile"
+									 src="{% static 'images/customerProfilePictures/' %}{{ currentUser.2 }}"
+									 width="32" height="32" alt="...">
+							</a>
+						</div>
+						<div class="media-body">
+							<a href="#" class="anchor-username"><h4
+									class="media-heading">{{ currentUser.0 }} {{ currentUser.1 }}</h4>
+							</a>
+							<span><input type="text" class="form-control" id="input-{{ foo.0 }}"
+										 placeholder="Post a comment..."/> <br>
+                                <button onclick="sendCommentToServer({{ foo.0 }}, $('#input-{{ foo.0 }}').val())"
+										class="btn btn-primary">Post</button>
+                            </span>
+						</div>
+						</div>
+						</div>
+						</div>
+
+					</section>
+
+				</div>
+			</div>
+		</div>
+		{% include "frontend/footer.html" %}
+	</div>
 
 {% endfor %}
-<div class="container">
-    <div class="col-md-5">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <section class="post-heading">
-                    <div class="row">
-                        <div class="col-md-11">
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object photo-profile"
-                                             src="https://gravatar.com/avatar/cc3944d6205169acc51b31d2445ecb92?s=400&d=robohash&r=x"
-                                             width="40" height="40" alt="...">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <a href="#" class="anchor-username"><h4 class="media-heading">Mikael
-                                        Arkeldelfelt</h4></a>
-                                    <a href="#" class="anchor-time">51 mins</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <a href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>
-                        </div>
-                    </div>
-                </section>
 
-                <section class="post-footer">
-                    <hr>
-                    <div class="post-footer-option container">
-                        <ul class="list-unstyled">
-                            <li><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i> Like</a></li>
-                            <li><a href="#"><i class="glyphicon glyphicon-comment"></i> Comment</a></li>
-                            <li><a href="#"><i class="glyphicon glyphicon-share-alt"></i> Share</a></li>
-                            <li><a href="#"><i class="glyphicon glyphicon-repeat"></i> Replay</a></li>
-                            <li><a href="#"><i class="glyphicon glyphicon-flag"></i> Flag</a></li>
-                        </ul>
-                    </div>
-                    <div class="post-footer-comment-wrapper">
-                        <div class="comment-form">
-                        </div>
-                        <div class="comment">
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object photo-profile"
-                                             src="https://gravatar.com/avatar/997a5d335c839cbe36a77364f23f23e7?s=400&d=robohash&r=x"
-                                             width="32" height="32" alt="...">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <a href="#" class="anchor-username"><h4 class="media-heading">Bay Ayberk</h4></a>
-                                    <p>yapacaan kopunun aq </p>
-                                    <div class="post-footer-option container">
-                                        <ul class="list-unstyled">
-                                            <li><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i> Like</a></li>
-                                            <a href="#" class="anchor-time">51 mins</a>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <br>
-                            </div>
-                        </div>
-                        <div class="comment">
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object photo-profile"
-                                             src="https://gravatar.com/avatar/997a5d335c839cbe36a77364f23f23e7?s=400&d=robohash&r=x"
-                                             width="32" height="32" alt="...">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <a href="#" class="anchor-username"><h4 class="media-heading">Bay Ayberk</h4></a>
-                                    <p>şşş duyuyon mu lan </p>
-                                    <div class="post-footer-option container">
-                                        <ul class="list-unstyled">
-                                            <li><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i> Like</a></li>
-                                            <a href="#" class="anchor-time">51 mins</a>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object photo-profile"
-                                             src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-                                             width="32" height="32" alt="...">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <a href="#" class="anchor-username"><h4 class="media-heading">John Smith</h4></a>
-                                    <span><input type="text" class="form-control" id="name2"
-                                                 placeholder="Post a comment..."/> <br> <button type="primary"
-                                                                                                onclick="comment()"
-                                                                                                class="btn btn-primary">Post</button> </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </div>
-</div>
 </body>
 
 </html>

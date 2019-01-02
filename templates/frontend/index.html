@@ -198,9 +198,9 @@
 			</form>
 		</div>
 	</div>
-    <ul id="searchResults">
+	<ul id="searchResults">
 
-    </ul>
+	</ul>
 	{% include "frontend/footer.html" %}
 </div> <!-- /container -->
 <script>
@@ -214,20 +214,20 @@
 			},
 
 			success: function (customerList) {
-                $("#searchResults").empty();
+				$("#searchResults").empty();
 
-                for (i = 0; i < customerList.length; i++) {
-                    let name = customerList[i].firstName;
+				for (i = 0; i < customerList.length; i++) {
+					let name = customerList[i].firstName;
 
 					let returnedCustomer = "<li>";
-                    returnedCustomer += "<a href=\"customers/?id=" + customerList[i].id + "\">";
-                    returnedCustomer += name + "</a></li>";
+					returnedCustomer += "<a href=\"customers/?id=" + customerList[i].id + "\">";
+					returnedCustomer += name + "</a></li>";
 
-                    $("#searchResults").append(returnedCustomer);
-                }
+					$("#searchResults").append(returnedCustomer);
+				}
 			},
 			error: function () {
-                alert("An error occurred");
+				alert("An error occurred");
 			}
 		});
 	}
