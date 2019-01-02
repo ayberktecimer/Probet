@@ -138,9 +138,9 @@ INSERT INTO PostStat VALUES(2, 61, 40, 3, 47, 32);
 
 
 -- post
-INSERT INTO Post (date, pmessage, customer_id ) VALUES(1541167200, "This is a post...", 1);
-INSERT INTO Post (date, pmessage, customer_id ) VALUES(1542790800, "Another post...", 2);
-INSERT INTO Post (date, pmessage, customer_id ) VALUES(1543136400, "A post...", 353);
+INSERT INTO Post (date, pmessage, customer_id, bet_slip_id ) VALUES(1541167200, "This is a post...", 1, 1);
+INSERT INTO Post (date, pmessage, customer_id, bet_slip_id ) VALUES(1542790800, "Another post...", 2, 2);
+INSERT INTO Post (date, pmessage, customer_id, bet_slip_id ) VALUES(1543136400, "A post...", 353, 3);
 
 
 -- post like

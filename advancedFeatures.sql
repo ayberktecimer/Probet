@@ -15,7 +15,7 @@ AFTER UPDATE ON BetSlip
 WHEN OLD.status = "waiting" AND NEW.status = "win"
 BEGIN
   UPDATE Customer SET rank = rank + 1 WHERE NEW.customer_id = Customer.customer_id;
-END
+END;
 
 -- for testing purposes
 SELECT * FROM sqlite_master WHERE TYPE = 'trigger';

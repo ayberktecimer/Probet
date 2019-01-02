@@ -113,12 +113,15 @@ tackles INT,
 FOREIGN KEY(sta_id) REFERENCES Statistics,
 PRIMARY KEY (sta_id));
 
+DROP TABLE Post;
 CREATE TABLE Post (
 post_id INTEGER PRIMARY KEY AUTOINCREMENT,
 date  DATE NOT NULL,
 pmessage VARCHAR(255),
 customer_id INT NOT NULL,
-FOREIGN KEY(customer_id) REFERENCES Customer(customer_id));
+bet_slip_id INT NOT NULL,
+FOREIGN KEY(customer_id) REFERENCES Customer(customer_id),
+FOREIGN KEY(bet_slip_id) REFERENCES BetSlip(bet_slip_id));
 
 CREATE TABLE Post_like (
 post_id INT NOT NULL,
