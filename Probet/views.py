@@ -311,12 +311,17 @@ def socialbetting(request):
 	cursor = connection.cursor()
 	cursor.execute("SELECT * FROM Post NATURAL JOIN Customer")
 	posts = cursor.fetchall()
+
+	cursor.execute("SELECT * FROM Comment NATURAL JOIN Customer")
+	comments = cursor.fetchall()
+
 	cursor.execute(
 		"SELECT COUNT(*) FROM Post INNER JOIN Post_like ON Post.post_id = Post_like.post_id GROUP BY Post.post_id")
 	likeCount = cursor.fetchall()
 	mylist = itertools.zip_longest(posts, likeCount)
 	context = {
-		"posts": mylist
+		"posts": mylist,
+		"comments": comments
 	}
 
 	connection.close()
@@ -362,3 +367,23 @@ def averageScoreSql():
 		   "AND home_team_id IN firstThree) SELECT (((SELECT homesum FROM scoresAtHome) + (SELECT awaysum " \
 		   "FROM scoresAtAway) * 1.0 / ((SELECT homecount FROM scoresAtHome) + (SELECT awaycount FROM scoresAtAway)))) " \
 		   "as average_score_against_first_three"
+
+
+def postlike(request):
+	like = json.loads(request.body.decode("utf-8"))
+	customerId = like['customerId']
+	postId = like['postId']
+
+	connection = sqlite3.connect('db.sqlite3')
+	cursor = connection.cursor()
+	cursor.execute("SELECT * FROM Post_like WHERE post_id =? AND customer_id =?", [postId, customerId])
+	likeExists = cursor.fetchall()
+	if len(likeExists) == 0:
+		cursor.execute("INSERT INTO Post_like VALUES(?, ?)", [postId, customerId])
+		connection.commit()
+	else:
+		cursor.execute("DELETE FROM  Post_like WHERE post_id =? AND customer_id =?", [postId, customerId])
+		connection.commit()
+
+	connection.close()
+	return HttpResponse()
