@@ -83,10 +83,10 @@
 					<div class="card">
 						<ul class="list-group list-group-flush">
 							<div id="appendHere">
-								<p> Coupon id: 123 Date: 21.2.18 <strong>WAITING</strong></p>
+
 
 								{% for i in current_slip %}
-									<li class='list-group-item'><a href=''>{{ i.0 }} - {{ i.1 }}</a> <a> </a>
+									<li class='list-group-item'><a href='/teams/?id={{ i.4 }}'>{{ i.0 }} </a> <a> - </a><a href="/teams/?id={{ i.5 }}">{{ i.1 }}</a> <a> </a>
 										<br/>Odd: {{ i.3 }}
 										<br/>Odd Type: {{ i.2 }}
 									</li>
@@ -98,9 +98,9 @@
 					<div class="card">
 						<ul class="list-group list-group-flush">
 							<div id="appendHere">
-								<p> Coupon id: 123 Date: 21.2.18 <strong>WIN</strong></p>
+
 								{% for old in old_slip %}
-									<li class='list-group-item'><a href=''>{{ old.0 }} - {{ old.1 }}</a> <a> </a> <br/>Odd: {{ old.3 }}
+									<li class='list-group-item'><a href='/teams/?id={{ old.4 }}'>{{ old.0 }}</a> <a> - </a><a href='/teams/?id={{ old.5 }}'> {{ old.1 }}</a> <br/>Odd: {{ old.3 }}
 										<br/>Odd Type: {{ old.2 }}
 									</li>
 								{% endfor %}
