@@ -84,7 +84,7 @@ INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_
             VALUES(1534093200, 1, 1, 6, 1534093200, 1534100400, 1, 2);
 
 INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_time, home_team_id, away_team_id)
-            VALUES(1521547200, 1, 1, 6, 1521547200, 1521554400, 4, 5);
+VALUES (1521547200, 1, 1, 6, 1521547200, 1521554400, 4, 3);
 
 INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_time, home_team_id, away_team_id)
             VALUES(1546333200, NULL, NULL, 3, 1546333200, 1546344000, 1, 2);

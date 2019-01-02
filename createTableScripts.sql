@@ -12,6 +12,8 @@ rank INT DEFAULT 0,
 birth_date DATE, 
 PRIMARY KEY (customer_id));
 
+CREATE INDEX rankIndex ON Customer(rank);
+
 CREATE TABLE Message ( 
 message_id INTEGER PRIMARY KEY AUTOINCREMENT,
 message_text VARCHAR(255) NOT NULL, 
