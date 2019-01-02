@@ -289,8 +289,9 @@ def createBetSlip(request):
 					   [customerId, betAmount, numberOfGames])
 
 		for game in games:
-			cursor.execute("INSERT INTO Includes VALUES (?, ?, ?, last_insert_rowid());",
-						   [game['gameId'], game['oddType'], customerId])
+			cursor.execute(
+				"INSERT INTO Includes VALUES (?, ?, ?, (SELECT bet_slip_id FROM BetSlip ORDER BY bet_slip_id DESC LIMIT 1));",
+				[game['gameId'], game['oddType'], customerId])
 
 		connection.commit()
 		connection.close()
