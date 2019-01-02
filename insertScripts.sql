@@ -59,6 +59,9 @@ INSERT INTO Team (name, league, place_in_league, country, team_pic)
 INSERT INTO Team (name, league, place_in_league, country, team_pic)
             VALUES('Tofaş', 'Tahincioğlu Basketbol Süper Lig', 2, 'Turkey', '8.jpg');
 
+INSERT INTO Team (name, league, place_in_league, country, team_pic)
+            VALUES('Gaziantep BB', 'TFF 1.Lig', 3, 'Turkey', '9.jpg');
+
 
 -- game
 
@@ -74,6 +77,12 @@ INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_
 
 INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_time, home_team_id, away_team_id)
             VALUES(1546333200, NULL, NULL, 3, 1546333200, 1546344000, 1, 2);
+
+INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_time, home_team_id, away_team_id)
+            VALUES(1519689600, 1, 4, 5, 1519689600, 1519743600, 2, 1);
+
+INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_time, home_team_id, away_team_id)
+            VALUES(1546165690, 2, 3, 4, 1546165690, 1546172890, 9, 1);
 
 -- (basketball games)
 INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_time, home_team_id, away_team_id)

@@ -12,7 +12,7 @@ CREATE VIEW flaggedPosts AS
 DROP TRIGGER after_betslip_update;
 CREATE TRIGGER after_betslip_update
 AFTER UPDATE ON BetSlip
-WHEN OLD.status = "waiting" AND NEW.status = "win"
+WHEN OLD.status = 'waiting' AND NEW.status = 'win'
 BEGIN
   UPDATE Customer SET rank = rank + 1 WHERE NEW.customer_id = Customer.customer_id;
 END;
