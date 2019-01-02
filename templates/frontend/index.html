@@ -32,7 +32,6 @@
 	</div>
 </div>
 <div class="container">
-	<!-- Example row of columns -->
 	<div class="row">
 		<div class="col-md-12">
 
@@ -92,48 +91,6 @@
 						Basketball
 					</button>
 				</a>
-				<tr>
-					<th scope="col">161</th>
-					<td scope="col">16.00</td>
-					<td scope="col">RUS</td>
-					<td scope="col">Akhmat Grozny</td>
-					<td scope="col">CSKA Moskova</td>
-					<td scope="col"><a>3.05</a></td>
-					<td scope="col"><a onclick="addOddtoBetSlip()" id="footballButton"> 2.60</a></td>
-					<td scope="col"><a>2.05</a></td>
-					<td scope="col"><a>1.30</a></td>
-					<td scope="col"><a>2.30</a></td>
-					<td scope="col">+38</td>
-					<td scope="col">2 likes</td>
-				</tr>
-				<tr>
-					<th scope="col">163</th>
-					<td scope="col">18.00</td>
-					<td scope="col">SSL</td>
-					<td scope="col">Alanyaspor</td>
-					<td scope="col">Kayserispor</td>
-					<td scope="col"><a>1.80</a></td>
-					<td scope="col"><a>3.00</a></td>
-					<td scope="col"><a>3.20</a></td>
-					<td scope="col"><a>1.60</a></td>
-					<td scope="col"><a>1.75</a></td>
-					<td scope="col">+74</td>
-					<td scope="col">4 likes</td>
-				</tr>
-				<tr>
-					<th scope="col">164</th>
-					<td scope="col">19.00</td>
-					<td scope="col">CEK</td>
-					<td scope="col">MFK Karvina</td>
-					<td scope="col">Slavia Prag</td>
-					<td scope="col"><a>7.00</a></td>
-					<td scope="col"><a>4.00</a></td>
-					<td scope="col"><a>1.25</a></td>
-					<td scope="col"><a>1.75</a></td>
-					<td scope="col"><a>1.60</a></td>
-					<td scope="col">+19</td>
-					<td scope="col">25 likes</td>
-				</tr>
 				</tbody>
 			</table>
 		</div>
@@ -211,7 +168,7 @@
 	<div>
 		<input type="number" required placeholder="Amount (min. 3 TL)" id="betAmount" name="betAmount" min="3"
 			   step=".01">
-		<button onclick=sendSlipToServer(); class="btn btn-primary">Create bet slip</button>
+		<button class="btn btn-primary" onclick=sendSlipToServer();>Create bet slip</button>
 	</div>
 	<div class="row">
 		<div class="col-md-12">
@@ -227,8 +184,45 @@
 			</div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Find a user by rank</h2>
+			<p>Each user have a rank based on the success of bet slips. You can search users according to their
+				ranks.</p>
+			<form class="form-inline">
+				<input type="number" class="form-control mb-2 mr-sm-2" placeholder="Minimum Rank" id="minRank">
+				<input type="number" class="form-control mb-2 mr-sm-2" placeholder="Maximum Rank" id="maxRank">
+				<button type="button" class="btn btn-primary mb-2"
+						onclick="searchCustomersByRank($('#minRank').val(), $('#maxRank').val())">Search
+				</button>
+			</form>
+		</div>
+	</div>
+	<div id="searchResults">
+
+	</div>
 	{% include "frontend/footer.html" %}
 </div> <!-- /container -->
+<script>
+	function searchCustomersByRank(minRank, maxRank) {
+		$.ajax({
+			url: "/searchCustomer",
+			type: "get",
+			data: {
+				minRank: minRank,
+				maxRank: maxRank
+			},
+
+			success: function (customerList) {
+				alert(JSON.stringify(customerList));
+				// $("#searchResults").html(customerList)
+			},
+			error: function () {
+				alert("An error occurred")
+			}
+		});
+	}
+</script>
 <script src="{% static 'js/vendor/jquery.min.js' %}"></script>
 <script>
 	window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')

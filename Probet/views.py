@@ -1,5 +1,5 @@
 import json
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from datetime import datetime
 import sqlite3
@@ -310,3 +310,25 @@ def socialbetting(request):
 
 	connection.close()
 	return render(request, "frontend/mainSocialPage.html", context)
+
+
+def searchCustomer(request):
+	minRank = request.GET['minRank']
+	maxRank = request.GET['maxRank']
+
+	connection = sqlite3.connect('db.sqlite3')
+	cursor = connection.cursor()
+	cursor.execute("SELECT first_name, last_name, profile_pic, customer_id FROM Customer WHERE rank >= ? AND rank <= ?",
+				   [minRank, maxRank])
+
+	sqlResults = cursor.fetchall()
+
+	resultList = []
+	for customer in sqlResults:
+		resultList.append({
+			'id': customer[3],
+			'firstName': customer[0]
+		})
+
+	connection.close()
+	return JsonResponse(resultList, safe=False)

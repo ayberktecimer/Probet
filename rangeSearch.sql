@@ -3,7 +3,8 @@
 
 SELECT first_name, last_name, profile_pic, customer_id
 FROM Customer
-WHERE rank >= 1 AND rank <= 6;                        -- replace values with @lower_bound, @upper_bound
+WHERE rank >= 1
+  AND rank <= 6 -- replace values with @lower_bound, @upper_bound
 ORDER BY rank;
 
 ------------------------------------------------------------------------------------------
@@ -13,7 +14,8 @@ ORDER BY rank;
 SELECT H.name, A.name, game_id, date
 FROM Game INNER JOIN Team H ON H.team_id = game.home_team_id
 INNER JOIN Team A ON A.team_id = Game.away_team_id
-WHERE date >= 1521547200 AND date <= 1525197600;       --replace with @start_date, @end_date
+WHERE date >= 1521547200
+  AND date <= 1525197600 --replace with @start_date, @end_date
 ORDER BY date;
 
 ------------------------------------------------------------------------------------------

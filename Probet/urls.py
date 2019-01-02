@@ -29,6 +29,7 @@ from .views import suggestion
 from .views import writeSuggestion
 from .views import createBetSlip
 from .views import socialbetting
+from .views import searchCustomer
 
 urlpatterns = [
 	url(r'^sa$', sa),
@@ -44,5 +45,6 @@ urlpatterns = [
 	url(r'^suggestions', suggestion),
 	url(r'^slips/new', createBetSlip),
 	url(r'^mainsocialpage', socialbetting),
+	url(r'^searchCustomer', searchCustomer),
 	url(r'', index)
 ]
