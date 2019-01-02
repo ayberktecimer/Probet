@@ -202,8 +202,8 @@ INSERT INTO BetSlip (customer_id, bet_amount, num_of_games, date_created, status
 
 
 -- includes
-INSERT INTO Includes VALUES(80, 'MS1', 1, 100);
-INSERT INTO Includes VALUES(82, 'MS2', 2, 101);
-INSERT INTO Includes VALUES(80, 'MS0', 353, 102);
-INSERT INTO Includes VALUES(83, 'MS1', 1, 103);
-INSERT INTO Includes VALUES(80, 'MS1', 10042167494, 104);
+INSERT INTO Includes VALUES(1, 'MS1', 1, 1);
+INSERT INTO Includes VALUES(3, 'MS2', 2, 2);
+INSERT INTO Includes VALUES(1, 'MS0', 353, 3);
+INSERT INTO Includes VALUES(4, 'MS1', 1, 4);
+INSERT INTO Includes VALUES(1, 'MS1', 10042167494, 5);
