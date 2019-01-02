@@ -81,7 +81,7 @@ def teams(request):
 		if team is None:
 			return HttpResponseRedirect("https://media.giphy.com/media/9SJazLPHLS8roFZMwZ/giphy.gif")
 
-		cursor.execute(averageScoreSql(), [teamId, teamId, teamId])
+		cursor.execute(averageScoreSql(), [teamId, teamId, teamId, teamId, teamId, teamId])
 		try:
 			averageScore = round(cursor.fetchone()[0], 2)
 		except:
@@ -311,12 +311,23 @@ def socialbetting(request):
 	cursor = connection.cursor()
 	cursor.execute("SELECT * FROM Post NATURAL JOIN Customer")
 	posts = cursor.fetchall()
+
+	cursor.execute("SELECT * FROM Comment NATURAL JOIN Customer")
+	comments = cursor.fetchall()
+
 	cursor.execute(
 		"SELECT COUNT(*) FROM Post INNER JOIN Post_like ON Post.post_id = Post_like.post_id GROUP BY Post.post_id")
 	likeCount = cursor.fetchall()
 	mylist = itertools.zip_longest(posts, likeCount)
+
+	cursor.execute("SELECT first_name, last_name, profile_pic FROM Customer WHERE customer_id=?",
+				   [request.session['tckn']])
+	currentUser = cursor.fetchone()
+
 	context = {
-		"posts": mylist
+		"posts": mylist,
+		"comments": comments,
+		"currentUser": currentUser
 	}
 
 	connection.close()
@@ -355,10 +366,106 @@ def uninterestedLeaguesSql():
 
 
 def averageScoreSql():
-	return "WITH firstThree AS (SELECT team_id FROM Team WHERE place_in_league < 4 AND league IN (SELECT league " \
-		   "FROM Team WHERE team_id = ?)), scoresAtHome AS (SELECT SUM(home_score) as homesum, COUNT(home_score) " \
-		   "as homecount FROM Game WHERE home_team_id = ? AND away_team_id IN firstThree), scoresAtAway " \
-		   "AS (SELECT SUM(away_score) as awaysum, COUNT(away_score) as awaycount FROM Game WHERE away_team_id = ? " \
-		   "AND home_team_id IN firstThree) SELECT (((SELECT homesum FROM scoresAtHome) + (SELECT awaysum " \
-		   "FROM scoresAtAway) * 1.0 / ((SELECT homecount FROM scoresAtHome) + (SELECT awaycount FROM scoresAtAway)))) " \
-		   "as average_score_against_first_three"
+	return "WITH firstThree AS (SELECT team_id FROM Team WHERE place_in_league < 4 " \
+		   "                AND league IN (SELECT league FROM Team WHERE team_id = ?) " \
+		   "                AND NOT team_id = ?), " \
+		   "scoresAtHome AS (SELECT SUM(IFNULL(home_score, 0)) as homesum, " \
+		   "                COUNT(home_score) as homecount " \
+		   "                FROM Game " \
+		   "                WHERE home_team_id = ? " \
+		   "                AND away_team_id IN firstThree), " \
+		   "scoresAtAway AS (SELECT SUM(IFNULL(away_score, 0)) as awaysum, " \
+		   "                COUNT(away_score) as awaycount " \
+		   "                FROM Game " \
+		   "                WHERE away_team_id = ? " \
+		   "                AND home_team_id IN firstThree) " \
+		   "SELECT (((SELECT IFNULL(homesum, 0) FROM scoresAtHome) + " \
+		   "         (SELECT IFNULL(awaysum, 0) FROM scoresAtAway))) * 1.0 / " \
+		   "          (SELECT COUNT(game_id) " \
+		   "          FROM Game " \
+		   "          WHERE (home_team_id = ? " \
+		   "          OR away_team_id = ?) " \
+		   "          AND home_score IS NOT NULL) as average_score_against_first_three "
+
+
+def postlike(request):
+	like = json.loads(request.body.decode("utf-8"))
+	customerId = like['customerId']
+	postId = like['postId']
+
+	connection = sqlite3.connect('db.sqlite3')
+	cursor = connection.cursor()
+	cursor.execute("SELECT * FROM Post_like WHERE post_id =? AND customer_id =?", [postId, customerId])
+	likeExists = cursor.fetchall()
+	if len(likeExists) == 0:
+		cursor.execute("INSERT INTO Post_like VALUES(?, ?)", [postId, customerId])
+		connection.commit()
+	else:
+		cursor.execute("DELETE FROM  Post_like WHERE post_id =? AND customer_id =?", [postId, customerId])
+		connection.commit()
+
+	connection.close()
+	return HttpResponse()
+
+
+def updateprofile(request):
+	if request.method == "GET":
+		return render(request, "frontend/updateProfile.html")
+	elif request.method == "POST":
+		usr = request.session['tckn']
+		connection = sqlite3.connect('db.sqlite3')
+		cursor = connection.cursor()
+		cursor.execute(
+			"SELECT  fav_team, phone_number, iban, email, password FROM Customer WHERE customer_id = ?;", [usr])
+
+		profile_data = cursor.fetchone()
+
+		fav_team = profile_data[0]
+		phone_number = profile_data[1]
+		kban = profile_data[2]
+		email = profile_data[3]
+		password = profile_data[4]
+
+		if len(request.POST['favTeam']) != 0:
+			fav_team = request.POST['favTeam']
+		if len(request.POST['iban']) != 0:
+			kban = request.POST['iban']
+		if len(request.POST['email']) != 0:
+			email = request.POST['email']
+		if len(request.POST['phone']) != 0:
+			phone_number = request.POST['phone']
+		if len(request.POST['newpass']) != 0:
+			password = request.POST['newpass']
+
+		print(fav_team)
+		print(phone_number)
+		print(kban)
+		print(email)
+		print(password)
+
+		cursor.execute("SELECT name FROM TEAM")
+		teams = cursor.fetchall()
+
+		cursor.execute(
+			"UPDATE Customer SET fav_team = ?, phone_number = ?, iban = ?, email = ?, password = ? WHERE customer_id = ?",
+			[fav_team, phone_number, kban, email, password, usr])
+		connection.commit()
+		connection.close()
+		return render(request, "frontend/updateProfile.html")
+
+
+def postcomment(request):
+	comment = json.loads(request.body.decode("utf-8"))
+	customerId = comment['customerId']
+	postId = comment['postId']
+	c_message = comment['commentContent']
+
+	connection = sqlite3.connect('db.sqlite3')
+	cursor = connection.cursor()
+
+	cursor.execute("INSERT INTO Comment(post_id, c_message, date, customer_id) VALUES(?, ?,current_date, ?)",
+				   [postId, c_message, customerId])
+	connection.commit()
+
+	connection.close()
+	return HttpResponse()
