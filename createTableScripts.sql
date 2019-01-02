@@ -69,9 +69,9 @@ PRIMARY KEY (game_id, odd_type),
 FOREIGN KEY(game_id) REFERENCES Game(game_id));
 
 CREATE TABLE Editor (
-editor_id INT NOT NULL,
-PRIMARY KEY (editor_id)
-FOREIGN KEY (editor_id) REFERENCES Customer(customer_id));
+                      editor_id INT NOT NULL,
+                      PRIMARY KEY (editor_id),
+                      FOREIGN KEY (editor_id) REFERENCES Customer(customer_id));
 
 CREATE TABLE Suggestion (
 sug_id INTEGER PRIMARY KEY AUTOINCREMENT,

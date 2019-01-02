@@ -142,13 +142,17 @@ def customers(request):
 	else:
 		followingStatus = 0  # User views a stranger
 
+	cursor.execute(uninterestedLeaguesSql(), [userId, userId])
+	uninterestedLeagues = cursor.fetchall()
+
 	context = {
 		"customer": customer,
 		"current_slip": get_current_slip,
 		"old_slip": get_old_slip,
 		"following": followingList,
 		"followers": followersList,
-		"followingStatus": followingStatus
+		"followingStatus": followingStatus,
+		"uninterestedLeagues": uninterestedLeagues
 	}
 
 	connection.commit()  # Required for updating things
@@ -332,3 +336,12 @@ def searchCustomer(request):
 
 	connection.close()
 	return JsonResponse(resultList, safe=False)
+
+
+def uninterestedLeaguesSql():
+	return "WITH customerAndFriends AS (SELECT customer2_id AS customer_id FROM Follows " \
+		   "WHERE customer_id = ? UNION SELECT customer_id FROM Customer " \
+		   "WHERE customer_id = ?), playedLeagues AS (SELECT DISTINCT H.league " \
+		   "FROM (customerAndFriends NATURAL JOIN Includes NATURAL JOIN Game " \
+		   "INNER JOIN Team H ON H.team_id = game.home_team_id INNER JOIN Team A " \
+		   "ON A.team_id = Game.away_team_id)) SELECT DISTINCT league FROM Team WHERE league NOT IN playedLeagues"

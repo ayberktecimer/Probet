@@ -48,6 +48,14 @@
 				</ul>
 			{% endif %}
 
+			<h2>Uninterested leagues</h2>
+			<p>The league names which never appeared in a bet slip that is played
+				by {{ customer.4 }} and the customers that are followed by {{ customer.4 }}.</p>
+			<ul>
+				{% for league in uninterestedLeagues %}
+					<li>{{ league.0 }}</li>
+				{% endfor %}
+			</ul>
 		</div>
 		<div class="col-md-6">
 			<p>
