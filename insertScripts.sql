@@ -62,6 +62,17 @@ INSERT INTO Team (name, league, place_in_league, country, team_pic)
 INSERT INTO Team (name, league, place_in_league, country, team_pic)
             VALUES('Gaziantep BB', 'TFF 1.Lig', 3, 'Turkey', '9.jpg');
 
+INSERT INTO Team (name, league, place_in_league, country, team_pic)
+VALUES ('Liverpool', 'Premier League', 1, 'England', '10.jpg');
+
+INSERT INTO Team (name, league, place_in_league, country, team_pic)
+VALUES ('Tottenham', 'Premier League', 2, 'England', '11.jpg');
+
+INSERT INTO Team (name, league, place_in_league, country, team_pic)
+VALUES ('FC Barcelona', 'La Liga', 1, 'Spain', '12.jpg');
+
+INSERT INTO Team (name, league, place_in_league, country, team_pic)
+VALUES ('Real Madrid', 'La Liga', 4, 'Spain', '13.jpg');
 
 -- game
 
@@ -83,6 +94,12 @@ INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_
 
 INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_time, home_team_id, away_team_id)
             VALUES(1546165690, 2, 3, 4, 1546165690, 1546172890, 9, 1);
+
+INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_time, home_team_id, away_team_id)
+VALUES (1548363600, NULL, NULL, 2, 1548363600, 1548372600, 10, 11);
+
+INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_time, home_team_id, away_team_id)
+VALUES (1543005000, 3, 3, 5, 1543005000, 1543013100, 12, 13);
 
 -- (basketball games)
 INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_time, home_team_id, away_team_id)
@@ -119,6 +136,33 @@ INSERT INTO Odd VALUES(5, 'MS2', 1.7);
 INSERT INTO Odd VALUES(6, 'MS1', 1.7);
 INSERT INTO Odd VALUES(6, 'MS2', 1.7);
 
+INSERT INTO Odd
+VALUES (7, 'MS0', 2.5);
+INSERT INTO Odd
+VALUES (7, 'MS1', 2.2);
+INSERT INTO Odd
+VALUES (7, 'MS2', 2.1);
+
+INSERT INTO Odd
+VALUES (8, 'MS0', 2.8);
+INSERT INTO Odd
+VALUES (8, 'MS1', 2.6);
+INSERT INTO Odd
+VALUES (8, 'MS2', 2.7);
+
+INSERT INTO Odd
+VALUES (9, 'MS0', 3.0);
+INSERT INTO Odd
+VALUES (9, 'MS1', 2.1);
+INSERT INTO Odd
+VALUES (9, 'MS2', 2.7);
+
+INSERT INTO Odd
+VALUES (10, 'MS0', 2.3);
+INSERT INTO Odd
+VALUES (10, 'MS1', 2.5);
+INSERT INTO Odd
+VALUES (10, 'MS2', 2.4);
 
 -- editor
 INSERT INTO Editor VALUES(12345678901);
@@ -200,6 +244,12 @@ INSERT INTO BetSlip (customer_id, bet_amount, num_of_games, date_created, status
 INSERT INTO BetSlip (customer_id, bet_amount, num_of_games, date_created, status)
             VALUES(10042167494, 12, 1, 1522612800, 'lose');
 
+INSERT INTO BetSlip (customer_id, bet_amount, num_of_games, date_created, status)
+VALUES (10042167494, 50, 3, 1546352760, 'waiting');
+
+INSERT INTO BetSlip (customer_id, bet_amount, num_of_games, date_created, status)
+VALUES (2, 100, 5, 1542713940, 'win');
+
 
 -- includes
 INSERT INTO Includes VALUES(1, 'MS1', 1, 1);
@@ -207,3 +257,11 @@ INSERT INTO Includes VALUES(3, 'MS2', 2, 2);
 INSERT INTO Includes VALUES(1, 'MS0', 353, 3);
 INSERT INTO Includes VALUES(4, 'MS1', 1, 4);
 INSERT INTO Includes VALUES(1, 'MS1', 10042167494, 5);
+INSERT INTO Includes
+VALUES (5, 'MS1', 10042167494, 6);
+INSERT INTO Includes
+VALUES (8, 'MS0', 1, 7);
+INSERT INTO Includes
+VALUES (9, 'MS2', 10042167494, 8);
+INSERT INTO Includes
+VALUES (10, 'MS0', 2, 9);
