@@ -101,6 +101,9 @@ VALUES (1548363600, NULL, NULL, 2, 1548363600, 1548372600, 10, 11);
 INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_time, home_team_id, away_team_id)
 VALUES (1543005000, 3, 3, 5, 1543005000, 1543013100, 12, 13);
 
+INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_time, home_team_id, away_team_id)
+VALUES (1524495600, 4, 2, 3, 1524495600, 1524504600, 13, 12);
+
 -- (basketball games)
 INSERT INTO Game (date, home_score, away_score, min_bet_number, start_time, end_time, home_team_id, away_team_id)
             VALUES(1545555600, 81, 93, 5, 1545571800, 1545579000, 8, 6);
