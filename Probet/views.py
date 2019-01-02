@@ -1,6 +1,7 @@
 import json
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from datetime import datetime
 import sqlite3
 import itertools
 
@@ -222,6 +223,10 @@ def writeSuggestion(request):
 		return render(request, "frontend/writeSuggestion.html")
 
 
+def convertTimeStamp(timestamp):
+	return datetime.utcfromtimestamp(timestamp).strftime('%d.%m.%Y %H:%M')
+
+
 def getGamesAndOdds():
 	connection = sqlite3.connect('db.sqlite3')
 	cursor = connection.cursor()
@@ -231,7 +236,7 @@ def getGamesAndOdds():
 	gamesAndOdds = {}
 	for game in games:
 		gameId = game[0]
-		startTime = game[1]
+		startTime = convertTimeStamp(game[1])
 		league = game[2]
 		homeName = game[3]
 		awayName = game[4]
