@@ -432,9 +432,4 @@ def updateprofile(request):
 		cursor.execute("UPDATE Customer SET fav_team = ?, phone_number = ?, iban = ?, email = ?, password = ? WHERE customer_id = ?",[fav_team, phone_number, kban, email, password, usr])
 		connection.commit()
 		connection.close()
-		'''
-		UPDATE Customers
-		SET ContactName='Alfred Schmidt', City='Frankfurt'
-		WHERE CustomerID=1;
-		'''
 		return render(request, "frontend/updateProfile.html")
