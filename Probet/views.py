@@ -118,12 +118,12 @@ def customers(request):
 	customer = cursor.fetchone()
 
 	cursor.execute(
-		"SELECT home.name, away.name, odd_type,odd_amount, home_team_id, away_team_id FROM Odd NATURAL JOIN Game INNER JOIN Team home ON home.team_id=home_team_id INNER JOIN Team away ON away.team_id=away_team_id NATURAL JOIN INCLUDES NATURAL JOIN BetSlip WHERE customer_id = ? AND status = 'waiting' ",
+		"SELECT home.name, away.name, odd_type,odd_amount, home_team_id, away_team_id, bet_slip_id FROM Odd NATURAL JOIN Game INNER JOIN Team home ON home.team_id=home_team_id INNER JOIN Team away ON away.team_id=away_team_id NATURAL JOIN INCLUDES NATURAL JOIN BetSlip WHERE customer_id = ? AND status = 'waiting' ",
 		[userId])
 	get_current_slip = cursor.fetchall()
 
 	cursor.execute(
-		"SELECT home.name, away.name, odd_type, odd_amount, home.team_id, away_team_id FROM Odd NATURAL JOIN Game INNER JOIN Team home ON home.team_id=home_team_id INNER JOIN Team away ON away.team_id=away_team_id NATURAL JOIN INCLUDES NATURAL JOIN BetSlip WHERE customer_id = ? AND status != 'waiting' ",
+		"SELECT home.name, away.name, odd_type, odd_amount, home.team_id, away_team_id, bet_slip_id FROM Odd NATURAL JOIN Game INNER JOIN Team home ON home.team_id=home_team_id INNER JOIN Team away ON away.team_id=away_team_id NATURAL JOIN INCLUDES NATURAL JOIN BetSlip WHERE customer_id = ? AND status != 'waiting' ",
 		[userId])
 	get_old_slip = cursor.fetchall()
 	if customer is None:

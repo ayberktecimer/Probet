@@ -90,6 +90,7 @@
 
 								{% for i in current_slip %}
 									<li class='list-group-item'><a href='/teams/?id={{ i.4 }}'>{{ i.0 }} </a> <a> - </a><a href="/teams/?id={{ i.5 }}">{{ i.1 }}</a> <a> </a>
+										<br/><strong>Bet Slip Id: {{ i.6 }}</strong>
 										<br/>Odd: {{ i.3 }}
 										<br/>Odd Type: {{ i.2 }}
 									</li>
@@ -103,7 +104,10 @@
 							<div id="appendHere">
 
 								{% for old in old_slip %}
-									<li class='list-group-item'><a href='/teams/?id={{ old.4 }}'>{{ old.0 }}</a> <a> - </a><a href='/teams/?id={{ old.5 }}'> {{ old.1 }}</a> <br/>Odd: {{ old.3 }}
+									<li class='list-group-item'><a href='/teams/?id={{ old.4 }}'>{{ old.0 }}</a> <a>
+										- </a><a href='/teams/?id={{ old.5 }}'> {{ old.1 }}</a>
+										<br/><strong>Bet Slip Id: {{ i.6 }}</strong>
+										<br/>Odd: {{ old.3 }}
 										<br/>Odd Type: {{ old.2 }}
 									</li>
 								{% endfor %}
