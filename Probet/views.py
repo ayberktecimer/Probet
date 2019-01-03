@@ -313,6 +313,16 @@ def socialbetting(request):
 	cursor.execute("SELECT * FROM Post NATURAL JOIN Customer")
 	posts = cursor.fetchall()
 
+	sqlResults = []
+
+	for p in posts:
+		cursor.execute(
+			"SELECT home.name, away.name, odd_type,odd_amount, home_team_id, away_team_id, bet_slip_id FROM Odd NATURAL JOIN Game INNER JOIN Team home ON home.team_id=home_team_id INNER JOIN Team away ON away.team_id=away_team_id NATURAL JOIN INCLUDES NATURAL JOIN BetSlip WHERE customer_id = ? AND bet_slip_id = ?",
+			[p[3], p[4]])
+		postSlip = cursor.fetchall()
+		sqlResults.append(postSlip)
+
+
 	cursor.execute("SELECT * FROM Comment NATURAL JOIN Customer")
 	comments = cursor.fetchall()
 
@@ -328,7 +338,8 @@ def socialbetting(request):
 	context = {
 		"posts": mylist,
 		"comments": comments,
-		"currentUser": currentUser
+		"currentUser": currentUser,
+		"sqlResults": sqlResults
 	}
 
 	connection.close()
