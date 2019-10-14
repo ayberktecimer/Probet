@@ -13,7 +13,7 @@ number of bets that are in a bet slip if a user wants to bet on that match.
 * [Django](https://www.djangoproject.com/) 
 * [Bootstrap](https://getbootstrap.com/) 
 * [JavaScript](https://www.javascript.com/)
-* [Jquery](https://jquery.com/)
+* [JQuery](https://jquery.com/)
 * [SQLite](https://www.sqlite.org/index.html)
 
 ## Reports
